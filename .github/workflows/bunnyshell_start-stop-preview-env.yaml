@@ -1,0 +1,45 @@
+name: Bunnyshell Start/Stop Preview Environment
+concurrency:
+  group: bns-pr-${{ github.event.issue.id }}
+on:
+  issue_comment:
+    types: [created, edited]
+jobs:
+  start:
+    name: Start/Stop Environment
+    if: |
+      ${{ github.event.issue.pull_request
+        && (
+          contains(github.event.comment.body, '/bns-start')
+          || contains(github.event.comment.body, '/bns-stop')
+        ) }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Prepare vars
+      run: |-
+        echo "BNS_ENV_NAME=Sylius PR #${{ github.event.number }}" >> "$GITHUB_ENV"
+    - name: Check existing Environment
+      uses: addnab/docker-run-action@v3
+      with:
+        image: bunnyshell/cli:latest
+        options: -v ${{ github.env }}:/github/envs.txt
+        run: |
+          set -ex
+
+          BNS_ENV_ID=`bns environments list --search "${{ env.BNS_ENV_NAME }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
+            | jq -r "try ._embedded.item[0].id | select (.!=null)"`
+          echo "BNS_ENV_ID=$BNS_ENV_ID" >> /github/envs.txt
+    - name: Start Environment
+      uses: addnab/docker-run-action@v3
+      if: ${{ env.BNS_ENV_ID != '' && contains(github.event.comment.body, '/bns-start') }}
+      with:
+        image: bunnyshell/cli:latest
+        run: |
+          bns environments start --id "${{ env.BNS_ENV_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
+    - name: Stop Environment
+      uses: addnab/docker-run-action@v3
+      if: ${{ env.BNS_ENV_ID != '' && contains(github.event.comment.body, '/bns-stop') }}
+      with:
+        image: bunnyshell/cli:latest
+        run: |
+          bns environments stop --id "${{ env.BNS_ENV_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
