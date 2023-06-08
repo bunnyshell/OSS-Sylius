@@ -1,0 +1,24 @@
+name: Bunnyshell Create Preview Environment
+concurrency: bns-pr-${{ github.event.number }}
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    branches:
+      - '*'
+jobs:
+  deploy:
+    name: Deploy Environment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
+    - name: Get restricted files changes
+      id: changed-restricted-files
+      uses: tj-actions/changed-files@v36
+      with:
+        files: |
+          .bunnyshell/
+    - name: Checking
+      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      run: |
+        echo "Changed restricted files restricted: ${{ steps.changed-files-restricted.outputs.files }}"

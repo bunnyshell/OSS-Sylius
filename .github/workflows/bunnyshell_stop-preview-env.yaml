@@ -1,0 +1,67 @@
+name: Bunnyshell Stop Preview Environment
+concurrency:
+  group: bns-pr-${{ github.event.issue.id }}
+on:
+  issue_comment:
+    types: [created, edited]
+jobs:
+  stop:
+    name: Stop Environment
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/bns-stop') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Prepare vars
+      run: |-
+        PR_URL="${{ github.event.issue.pull_request.url }}"
+        PR_NUM=${PR_URL##*/}
+        echo "BNS_ENV_NAME=Sylius PR #$PR_NUM" >> "$GITHUB_ENV"
+    - name: Comment PR Environment stopping
+      uses: thollander/actions-comment-pull-request@v2
+      if: ${{ contains(github.event.comment.body, '/bns-stop') }}
+      with:
+        message: |
+          ### Bunnyshell Preview Environment stopping
+        comment_tag: stop-${{ github.run_id }}
+        reactions: eyes
+    - name: Check existing Environment
+      uses: addnab/docker-run-action@v3
+      with:
+        image: bunnyshell/cli:latest
+        options: -v ${{ github.env }}:/github/envs.txt
+        run: |
+          set -ex
+
+          BNS_ENV_ID=`bns environments list --search "${{ env.BNS_ENV_NAME }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
+            | jq -r "try ._embedded.item[0].id | select (.!=null)"`
+          echo "BNS_ENV_ID=$BNS_ENV_ID" >> /github/envs.txt
+          
+          if [ -z "$BNS_ENV_ID" ]; then
+            echo "Could not find environment with name '${{ env.BNS_ENV_NAME }}'"
+
+            exit 1
+          fi
+    - name: Stop Environment
+      uses: addnab/docker-run-action@v3
+      with:
+        image: bunnyshell/cli:latest
+        run: |
+          bns environments stop --id "${{ env.BNS_ENV_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
+    - name: Comment PR Environment stopped
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ### Bunnyshell Preview Environment stopped
+
+          Add a comment containing `/bns-start` to start the environment.
+        comment_tag: stop-${{ github.run_id }}
+        reactions: laugh
+    - name: Comment PR Environment stopping failed
+      if: ${{ failure() }}
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ### Bunnyshell Preview Environment stopping failed
+
+          Check ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details.
+        comment_tag: stop-${{ github.run_id }}
+        reactions: confused
