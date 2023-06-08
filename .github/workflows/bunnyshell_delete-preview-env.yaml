@@ -1,6 +1,5 @@
 name: Bunnyshell Delete Preview Environment
-concurrency:
-  group: bns-pr-${{ github.event.number }}
+concurrency: bns-pr-${{ github.event.pull_request.url }}
 on:
   pull_request_target:
     types: [closed]
@@ -20,7 +19,7 @@ jobs:
         image: bunnyshell/cli:latest
         options: -v ${{ github.env }}:/github/envs.txt
         run: |
-          set -ex
+          set -e
 
           BNS_ENV_ID=`bns environments list --search "${{ env.BNS_ENV_NAME }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
             | jq -r "try ._embedded.item[0].id | select (.!=null)"`
