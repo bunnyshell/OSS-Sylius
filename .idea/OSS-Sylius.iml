@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Behat" isTestSource="false" packagePrefix="Sylius\Behat\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Behat/spec" isTestSource="true" packagePrefix="spec\Sylius\Behat\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle" isTestSource="false" packagePrefix="Sylius\Bundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/AddressingBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\AddressingBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/AdminBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\AdminBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/ApiBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\ApiBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/AttributeBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\AttributeBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/ChannelBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\ChannelBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/CoreBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\CoreBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/CurrencyBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\CurrencyBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/CustomerBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\CustomerBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/InventoryBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\InventoryBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/LocaleBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\LocaleBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/MoneyBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\MoneyBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/OrderBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\OrderBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/PaymentBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\PaymentBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/PayumBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\PayumBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/ProductBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\ProductBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/PromotionBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\PromotionBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/ReviewBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\ReviewBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/ShopBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\ShopBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/TaxationBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\TaxationBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/TaxonomyBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\TaxonomyBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/UiBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\UiBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Bundle/UserBundle/spec" isTestSource="true" packagePrefix="spec\Sylius\Bundle\UserBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component" isTestSource="false" packagePrefix="Sylius\Component\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Addressing/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Addressing\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Attribute/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Attribute\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Channel/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Channel\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Core/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Core\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Currency/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Currency\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Customer/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Customer\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Inventory/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Inventory\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Locale/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Locale\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Order/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Order\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Payment/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Payment\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Product/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Product\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Promotion/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Promotion\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Review/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Review\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Shipping/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Shipping\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Taxation/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Taxation\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/Taxonomy/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\Taxonomy\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Sylius/Component/User/spec" isTestSource="true" packagePrefix="spec\Sylius\Component\User\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Sylius\Tests\" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
