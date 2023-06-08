@@ -80,7 +80,7 @@ jobs:
     steps:
     - name: Smoke tests
       run: |
-        set -ex
+        set -e
         APP_ENDPOINT=${{ needs.deploy.outputs.appEndpointUrl }}
         if [ -z "$APP_ENDPOINT" ]; then
           echo "No APP_ENDPOINT"
@@ -99,16 +99,14 @@ jobs:
       with:
         image: bunnyshell/cli:latest
         run: |
-          set -ex
+          set -e
+
           bns environments stop --id ${{ needs.deploy.outputs.envId }} --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
       if: "${{ needs.deploy.outputs.envCreated == '1' }}"
       with:
         message: |
-          ### Bunnyshell Preview Environment created
-            
-          - Store: ${{ needs.deploy.outputs.appEndpointUrl }}
-          - MailHog: ${{ needs.deploy.outputs.mailhogEndpointUrl }}
-          
+          ### Bunnyshell Preview Environment created and stopped
+
           Add a comment containing `/bns-start` to start the environment.
