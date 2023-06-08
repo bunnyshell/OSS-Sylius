@@ -44,7 +44,7 @@ jobs:
       run: |-
         set -ex
 
-        yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$GITHUB_HEAD_REF\"" .bunnyshell/templates/prod/bunnyshell.yaml > bunnyshell_pr.yaml
+        yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$GITHUB_HEAD_REF\"" .bunnyshell/templates/preview/bunnyshell.yaml > bunnyshell_pr.yaml
     - name: Create Environment
       uses: addnab/docker-run-action@v3
       if: "${{ env.BNS_ENV_ID == '' }}"
