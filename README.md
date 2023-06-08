@@ -11,7 +11,7 @@ Powerful REST API allows for easy integrations and creating unique customer expe
 
 We're using full-stack Behavior-Driven-Development, with [phpspec](https://phpspec.net) and [Behat](https://behat.org).
 
-Enjoy being an eCommerce Developer again!
+Enjoy being an eCommerce Developer again!!
 
 <img src="https://sylius.com/assets/readme/readme-main.png" />
 
