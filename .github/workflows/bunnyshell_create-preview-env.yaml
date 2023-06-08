@@ -1,13 +1,50 @@
 name: Bunnyshell Create Preview Environment
-concurrency: bns-pr-${{ github.event.number }}
+concurrency: bns-pr-${{ github.event.pull_request.url || github.event.issue.pull_request.url }}
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize]
+    types: [ opened, reopened, synchronize ]
     branches:
       - '*'
+  issue_comment:
+    types: [ created, edited ]
 jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check approved deployment
+        ${{ github.event.issue.pull_request
+          && contains(github.event.comment.body, '/bns-deploy')
+          && contains(fromJSON(vars.BUNNYSHELL_ALLOWED_USERS), github.event.sender.login)
+        }}
+      run: |
+        echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
+    - name: Get restricted files changes
+      id: changed-restricted-files
+      uses: tj-actions/changed-files@v36
+      if: ${{ env.BNS_ENV_APPROVED != '1' }}
+      with:
+        files: |
+         .bunnyshell/
+    - name: Comment PR Environment being created
+      uses: thollander/actions-comment-pull-request@v2
+      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      with:
+        message: |
+          ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
+          
+          Add a comment containing `/bns-deploy` to approve the creation of the environment.
+        comment_tag: start-${{ github.run_id }}
+        reactions: eyes
+    - name: Checking restricted files changes
+      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      run: |
+        echo "Restricted files changed: ${{ steps.changed-files-restricted.outputs.files }}"
+
+        exit 1
   deploy:
     name: Deploy Environment
+    needs: checks
     runs-on: ubuntu-latest
     outputs:
       envId: ${{ env.BNS_ENV_ID }}
@@ -19,7 +56,16 @@ jobs:
       uses: frenck/action-setup-yq@v1
     - name: Prepare vars
       run: |-
-        echo "BNS_ENV_NAME=Sylius PR #${{ github.event.number }}" >> "$GITHUB_ENV"
+        # If it's a PR comment, extract from PR URL
+        PR_URL="${{ github.event.issue.pull_request.url }}"
+        PR_NUM=${PR_URL##*/}
+        
+        # If It's a PR event, get the PR number
+        if [ -z "$PR_NUM" ]; then
+          PR_NUM="${{ github.event.number }}"
+        fi
+
+        echo "BNS_ENV_NAME=Sylius PR #$PR_NUM" >> "$GITHUB_ENV"
     - name: Check out the repo
       uses: actions/checkout@v2
     - name: Get Kubernetes integration
@@ -80,7 +126,7 @@ jobs:
     steps:
     - name: Smoke tests
       run: |
-        set -ex
+        set -e
         APP_ENDPOINT=${{ needs.deploy.outputs.appEndpointUrl }}
         if [ -z "$APP_ENDPOINT" ]; then
           echo "No APP_ENDPOINT"
@@ -99,16 +145,16 @@ jobs:
       with:
         image: bunnyshell/cli:latest
         run: |
-          set -ex
+          set -e
+
           bns environments stop --id ${{ needs.deploy.outputs.envId }} --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
       if: "${{ needs.deploy.outputs.envCreated == '1' }}"
       with:
         message: |
-          ### Bunnyshell Preview Environment created
-            
-          - Store: ${{ needs.deploy.outputs.appEndpointUrl }}
-          - MailHog: ${{ needs.deploy.outputs.mailhogEndpointUrl }}
-          
+          ### Bunnyshell Preview Environment created and stopped
+
           Add a comment containing `/bns-start` to start the environment.
+        comment_tag: deploy-${{ github.run_id }}
+        reactions: rocket
