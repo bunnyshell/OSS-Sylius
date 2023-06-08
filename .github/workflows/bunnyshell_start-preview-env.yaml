@@ -65,6 +65,7 @@ jobs:
         reactions: rocket
     - name: Comment PR Environment starting failed
       if: ${{ failure() }}
+      uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
           ### Bunnyshell Preview Environment starting failed

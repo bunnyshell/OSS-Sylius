@@ -57,6 +57,7 @@ jobs:
         reactions: laugh
     - name: Comment PR Environment stopping failed
       if: ${{ failure() }}
+      uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
           ### Bunnyshell Preview Environment stopping failed
