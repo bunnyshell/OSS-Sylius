@@ -106,9 +106,6 @@ jobs:
       if: "${{ needs.deploy.outputs.envCreated == '1' }}"
       with:
         message: |
-          ### Bunnyshell Preview Environment created
-            
-          - Store: ${{ needs.deploy.outputs.appEndpointUrl }}
-          - MailHog: ${{ needs.deploy.outputs.mailhogEndpointUrl }}
-          
+          ### Bunnyshell Preview Environment created and stopped
+
           Add a comment containing `/bns-start` to start the environment.
