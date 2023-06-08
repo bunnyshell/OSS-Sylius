@@ -1,0 +1,79 @@
+name: Bunnyshell Start Preview Environment
+concurrency: bns-pr-${{ github.event.issue.pull_request.url }}
+on:
+  issue_comment:
+    types: [created, edited]
+jobs:
+  start:
+    name: Start Environment
+    if: ${{ github.event.issue.pull_request
+          && contains(github.event.comment.body, '/bns-start')
+          && contains(fromJSON(vars.BUNNYSHELL_ALLOWED_USERS), github.event.sender.login)
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Prepare vars
+      run: |-
+        PR_URL="${{ github.event.issue.pull_request.url }}"
+        PR_NUM=${PR_URL##*/}
+        echo "BNS_ENV_NAME=Sylius PR #$PR_NUM" >> "$GITHUB_ENV"
+    - name: Comment PR Environment starting
+      uses: thollander/actions-comment-pull-request@v2
+      if: ${{ contains(github.event.comment.body, '/bns-start') }}
+      with:
+        message: |
+          ### Bunnyshell Preview Environment starting
+        comment_tag: start-${{ github.run_id }}
+        reactions: eyes
+    - name: Check existing Environment
+      uses: addnab/docker-run-action@v3
+      with:
+        image: bunnyshell/cli:v0.16.0
+        options: -v ${{ github.env }}:/github/envs.txt
+        run: |
+          set -e
+
+          BNS_ENV_ID=`bns environments list --search "${{ env.BNS_ENV_NAME }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
+            | jq -r "try ._embedded.item[0].id | select (.!=null)"`
+          echo "BNS_ENV_ID=$BNS_ENV_ID" >> /github/envs.txt
+          
+          if [ -z "$BNS_ENV_ID" ]; then
+            echo "Could not find environment with name '${{ env.BNS_ENV_NAME }}'"
+          
+            exit 1
+          fi
+    - name: Start Environment
+      uses: addnab/docker-run-action@v3
+      with:
+        image: bunnyshell/cli:v0.16.0
+        options: -v ${{ github.env }}:/github/envs.txt
+        run: |
+          set -e
+
+          bns environments start --id "${{ env.BNS_ENV_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
+
+          ENDPOINTS_OUTPUT=`bns environments endpoints --id ${{ env.BNS_ENV_ID }} --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive -o json`
+          echo "APP_ENDPOINT_URL=`echo \"$ENDPOINTS_OUTPUT\" | jq -r '.[] | select(.name == \"php\") | .endpoints[0]'`" >> /github/envs.txt
+          echo "MAILHOG_ENDPOINT_URL=`echo \"$ENDPOINTS_OUTPUT\" | jq -r '.[] | select(.name == \"mailhog\") | .endpoints[0]'`" >> /github/envs.txt
+    - name: Comment PR Environment started
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ### Bunnyshell Preview Environment started
+
+          - Store: ${{ env.APP_ENDPOINT_URL }}
+          - MailHog: ${{ env.MAILHOG_ENDPOINT_URL }}
+
+          Add a comment containing `/bns-stop` to stop the environment.
+        comment_tag: start-${{ github.run_id }}
+        reactions: rocket
+    - name: Comment PR Environment starting failed
+      if: ${{ failure() }}
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ### Bunnyshell Preview Environment starting failed
+
+          Check ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details.
+        comment_tag: start-${{ github.run_id }}
+        reactions: confused
