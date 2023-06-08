@@ -79,7 +79,7 @@ Sylius is completely free and released under the [MIT License](https://github.co
 ✍️ Authors
 ---------
 
-Sylius was originally created by [Paweł Jędrzejewski](https://pjedrzejewski.com).
+Sylius was originally created by [Paweł Jędrzejewski](https://pjedrzejewski.com)..
 
 Kudos to all Sylius contributors 🙏
 
