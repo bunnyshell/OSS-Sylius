@@ -25,7 +25,7 @@ Follow the [Getting started with Sylius tutorial](https://docs.sylius.com/en/lat
 📖 Documentation
 ----------------
  
-Documentation is available at [docs.sylius.com](https://docs.sylius.com).
+Documentation is available at [docs.sylius.com](https://docs.sylius.com)..
 
 🤝 Community
 ------------
