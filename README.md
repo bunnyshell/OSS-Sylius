@@ -20,7 +20,7 @@ Enjoy being an eCommerce Developer again!
 
 [Install Sylius](https://docs.sylius.com/en/latest/book/installation/installation.html) with Composer (see [requirements details](https://docs.sylius.com/en/latest/book/installation/requirements.html)).
 
-Follow the [Getting started with Sylius tutorial](https://docs.sylius.com/en/latest/getting-started-with-sylius/index.html)!
+Follow the [Getting started with Sylius tutorial](https://docs.sylius.com/en/latest/getting-started-with-sylius/index.html)!!
 
 📖 Documentation
 ----------------
