@@ -33,7 +33,8 @@ jobs:
       id: changed-restricted-files
       if: ${{ env.BNS_ENV_APPROVED != '1' }}
       uses: tj-actions/changed-files@v36
-      files: |
+      with:
+        files: |
           .bunnyshell
     - name: Debug
       run: |
