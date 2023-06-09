@@ -13,11 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check approved deployment
-        ${{ github.event.issue.pull_request
-          && contains(github.event.comment.body, '/bns-deploy')
-          && contains(fromJSON(vars.BUNNYSHELL_ALLOWED_USERS), github.event.sender.login)
-        }}
+      env:
+        IS_APPROVED_DEPLOY_COMMAND: ${{ github.event.issue.pull_request
+            && contains(github.event.comment.body, '/bns-deploy')
+            && contains(fromJSON(vars.BUNNYSHELL_ALLOWED_USERS), github.event.sender.login)
+          }}
       run: |
+        echo "$IS_APPROVED_DEPLOY_COMMAND"
+        
         echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
     - name: Get restricted files changes
       id: changed-restricted-files
