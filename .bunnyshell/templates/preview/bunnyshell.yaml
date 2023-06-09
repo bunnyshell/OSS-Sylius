@@ -1,5 +1,5 @@
 kind: Environment
-name: 'Sylius'
+name: 'Syliusz'
 type: primary
 environmentVariables:
     MYSQL_DATABASE: sylius
