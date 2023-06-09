@@ -1,0 +1,78 @@
+name: Bunnyshell Debug Environment
+concurrency: bns-pr-${{ github.event.pull_request.url || github.event.issue.pull_request.url }}
+on:
+  pull_request_target:
+    types: [ opened, reopened, synchronize ]
+    branches:
+      - '*'
+  issue_comment:
+    types: [ created, edited ]
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check approved deployment
+      env:
+        IS_APPROVED_DEPLOY_COMMAND: ${{ github.event.issue.pull_request
+            && contains(github.event.comment.body, '/bns-deploy')
+            && contains(fromJSON(vars.BUNNYSHELL_ALLOWED_USERS), github.event.sender.login)
+          }}
+      run: |
+        echo "$IS_APPROVED_DEPLOY_COMMAND"
+        
+        if [ "$IS_APPROVED_DEPLOY_COMMAND" = "true" ]; then
+          echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
+        fi
+    - name: Check out the repo
+      uses: actions/checkout@v3
+      if: ${{ env.BNS_ENV_APPROVED != '1' }}
+      with:
+        fetch-depth: 0
+    - name: Get restricted files changes
+      id: changed-restricted-files
+      if: ${{ env.BNS_ENV_APPROVED != '1' }}
+      uses: tj-actions/changed-files@v36
+    - name: Debug
+      run: |
+        echo "${{ steps.changed-restricted-files.outputs.any_changed }}"
+        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.all_modified_files }}"
+          
+        for file in ${{ steps.changed-restricted-files.outputs.all_modified_files }}; do
+          echo "$file was modified."
+        done
+    - name: Comment PR Environment being created
+      uses: thollander/actions-comment-pull-request@v2
+      if: steps.changed-restricted-files.outputs.any_changed == 'true'
+      with:
+        message: |
+          ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
+          
+          Add a comment containing `/bns-deploy` to approve the creation of the environment.
+        comment_tag: deploy-${{ github.run_id }}
+        reactions: eyes
+    - name: Abort due to restricted files changes
+      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      run: |
+        echo "Restricted files changed: ${{ steps.changed-files-restricted.outputs.files }}"
+
+        exit 1
+  deploy:
+    name: Deploy Environment
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+    - name: setup-yq
+      uses: frenck/action-setup-yq@v1
+    - name: Prepare vars
+      run: |-
+        # If it's a PR comment, extract from PR URL
+        PR_URL="${{ github.event.issue.pull_request.url }}"
+        PR_NUM=${PR_URL##*/}
+        
+        # If It's a PR event, get the PR number
+        if [ -z "$PR_NUM" ]; then
+          PR_NUM="${{ github.event.number }}"
+        fi
+
+        echo "BNS_ENV_NAME=Sylius PR #$PR_NUM" >> "$GITHUB_ENV"

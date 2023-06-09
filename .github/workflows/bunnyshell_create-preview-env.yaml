@@ -33,15 +33,12 @@ jobs:
       id: changed-restricted-files
       if: ${{ env.BNS_ENV_APPROVED != '1' }}
       uses: tj-actions/changed-files@v36
-      with:
-        files: |
-          .bunnyshell
     - name: Debug
       run: |
         echo "${{ steps.changed-restricted-files.outputs.any_changed }}"
-        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.files }}"
+        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.all_modified_files }}"
           
-        for file in ${{ steps.changed-restricted-files.outputs. modified_files }}; do
+        for file in ${{ steps.changed-restricted-files.outputs.all_modified_files }}; do
           echo "$file was modified."
         done
     - name: Comment PR Environment being created
@@ -52,7 +49,7 @@ jobs:
           ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
           
           Add a comment containing `/bns-deploy` to approve the creation of the environment.
-        comment_tag: start-${{ github.run_id }}
+        comment_tag: deploy-${{ github.run_id }}
         reactions: eyes
     - name: Abort due to restricted files changes
       if: steps.changed-files-restricted.outputs.any_changed == 'true'
