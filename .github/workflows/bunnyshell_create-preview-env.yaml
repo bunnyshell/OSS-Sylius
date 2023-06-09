@@ -24,10 +24,14 @@ jobs:
         if [ "$IS_APPROVED_DEPLOY_COMMAND" = "true" ]; then
           echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
         fi
+    - name: Check out the repo
+      uses: actions/checkout@v3
+      if: ${{ env.BNS_ENV_APPROVED != '1' }}
+      with:
+        fetch-depth: 0
     - name: Get restricted files changes
       id: changed-restricted-files
       uses: tj-actions/changed-files@v36
-      if: ${{ env.BNS_ENV_APPROVED != '1' }}
       with:
         files: |
          .bunnyshell/
@@ -41,8 +45,7 @@ jobs:
           Add a comment containing `/bns-deploy` to approve the creation of the environment.
         comment_tag: start-${{ github.run_id }}
         reactions: eyes
-    - name: Checking restricted files changes
-      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+    - name: Abort due to restricted files changes
       run: |
         echo "Restricted files changed: ${{ steps.changed-files-restricted.outputs.files }}"
 
@@ -72,7 +75,9 @@ jobs:
 
         echo "BNS_ENV_NAME=Sylius PR #$PR_NUM" >> "$GITHUB_ENV"
     - name: Check out the repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Get Kubernetes integration
       uses: addnab/docker-run-action@v3
       with:
