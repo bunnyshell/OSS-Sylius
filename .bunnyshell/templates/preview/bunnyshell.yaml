@@ -2,7 +2,7 @@ kind: Environment
 name: 'Sylius'
 type: primary
 environmentVariables:
-    MYSQL_DATABASE: syliuszzz
+    MYSQL_DATABASE: syliuszzzz
     MYSQL_PASSWORD: dbpassword
     MYSQL_ROOT_PASSWORD: dbpassword
     MYSQL_USER: sylius
