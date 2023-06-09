@@ -33,13 +33,19 @@ jobs:
       id: changed-restricted-files
       if: ${{ env.BNS_ENV_APPROVED != '1' }}
       uses: tj-actions/changed-files@v36
+      files: |
+          .bunnyshell
     - name: Debug
       run: |
-        echo "${{ steps.changed-files-restricted.outputs.any_changed }}"
-        echo "Restricted files changed: ${{ steps.changed-files-restricted.outputs.files }}"
+        echo "${{ steps.changed-restricted-files.outputs.any_changed }}"
+        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.files }}"
+          
+        for file in ${{ steps.changed-restricted-files.outputs. modified_files }}; do
+          echo "$file was modified."
+        done
     - name: Comment PR Environment being created
       uses: thollander/actions-comment-pull-request@v2
-      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      if: steps.changed-restricted-files.outputs.any_changed == 'true'
       with:
         message: |
           ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
