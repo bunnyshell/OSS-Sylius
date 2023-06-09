@@ -33,17 +33,12 @@ jobs:
       id: changed-restricted-files
       if: ${{ env.BNS_ENV_APPROVED != '1' }}
       uses: tj-actions/changed-files@v36
-    - name: Debug
-      run: |
-        echo "${{ steps.changed-restricted-files.outputs.any_changed }}"
-        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.all_modified_files }}"
-          
-        for file in ${{ steps.changed-restricted-files.outputs.all_modified_files }}; do
-          echo "$file was modified."
-        done
+      with:
+        files: |
+          .bunnyshell/*
     - name: Comment PR Environment being created
       uses: thollander/actions-comment-pull-request@v2
-      if: steps.changed-restricted-files.outputs.any_changed == 'true'
+      if: steps.changed-restricted-files.outputs.any_modified == 'true'
       with:
         message: |
           ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
@@ -52,9 +47,9 @@ jobs:
         comment_tag: deploy-${{ github.run_id }}
         reactions: eyes
     - name: Abort due to restricted files changes
-      if: steps.changed-files-restricted.outputs.any_changed == 'true'
+      if: steps.changed-restricted-files.outputs.any_modified == 'true'
       run: |
-        echo "Restricted files changed: ${{ steps.changed-files-restricted.outputs.files }}"
+        echo "Restricted files changed: ${{ steps.changed-restricted-files.outputs.files }}"
 
         exit 1
   deploy:
@@ -88,47 +83,57 @@ jobs:
     - name: Get Kubernetes integration
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         options: -v ${{ github.env }}:/github/envs.txt
         run: |-
-          set -ex
+          set -e
 
           echo "CLUSTER_ID=`bns k8s-clusters list --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --organization ${{ vars.BUNNYSHELL_ORGANIZATION_ID }} --non-interactive -o json \
             | jq -r '._embedded.item[0].id'`" >> /github/envs.txt
     - name: Check existing Environment
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         options: -v ${{ github.env }}:/github/envs.txt
         run: |-
-          set -ex
+          set -e
 
           echo "BNS_ENV_ID=`bns environments list --search "${{ env.BNS_ENV_NAME }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
             | jq -r 'try ._embedded.item[0].id | select (.!=null)'`" >> /github/envs.txt
     - name: Prepare bunnyshel.yaml
       run: |-
-        set -ex
+        set -e
 
         yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$GITHUB_HEAD_REF\"" .bunnyshell/templates/preview/bunnyshell.yaml > bunnyshell_pr.yaml
     - name: Create Environment
       uses: addnab/docker-run-action@v3
       if: "${{ env.BNS_ENV_ID == '' }}"
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         options: -v ${{ github.workspace }}:/work -v ${{ github.env }}:/github/envs.txt
         run: |-
-          set -ex
+          set -e
 
           echo "BNS_ENV_CREATED=1" >> /github/envs.txt
-          echo "BNS_ENV_ID=`bns environments create --name "${{ env.BNS_ENV_NAME }}" --debug --from-path /work/bunnyshell_pr.yaml --k8s "${{ env.CLUSTER_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
+          echo "BNS_ENV_ID=`bns environments create --name "${{ env.BNS_ENV_NAME }}" --from-path /work/bunnyshell_pr.yaml --k8s "${{ env.CLUSTER_ID }}" --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --project ${{ vars.BUNNYSHELL_PROJECT_ID }} --non-interactive -o json \
             | jq -r '.id'`" >> /github/envs.txt
+    - name: Update Environment
+      uses: addnab/docker-run-action@v3
+      if: "${{ env.BNS_ENV_ID != '' }}"
+      with:
+        image: bunnyshell/cli:v0.16.0
+        options: -v ${{ github.workspace }}:/work
+        run: |-
+          set -e
+
+          bns environments update-configuration --id ${{ env.BNS_ENV_ID }} --from-path /work/bunnyshell_pr.yaml --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
     - name: Deploy Environment
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         options: -v ${{ github.env }}:/github/envs.txt
         run: |-
-          set -ex
+          set -e
 
           bns environments deploy --id ${{ env.BNS_ENV_ID }} --token ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }} --non-interactive
 
@@ -160,7 +165,7 @@ jobs:
     - name: Stop Environment
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         run: |
           set -e
 

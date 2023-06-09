@@ -28,7 +28,7 @@ jobs:
     - name: Check existing Environment
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         options: -v ${{ github.env }}:/github/envs.txt
         run: |
           set -e
@@ -45,7 +45,7 @@ jobs:
     - name: Stop Environment
       uses: addnab/docker-run-action@v3
       with:
-        image: bunnyshell/cli:latest
+        image: bunnyshell/cli:v0.16.0
         run: |
           set -e
 
