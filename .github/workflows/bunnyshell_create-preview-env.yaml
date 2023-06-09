@@ -21,7 +21,9 @@ jobs:
       run: |
         echo "$IS_APPROVED_DEPLOY_COMMAND"
         
-        echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
+        if [ "$IS_APPROVED_DEPLOY_COMMAND" = "true" ]; then
+          echo "BNS_ENV_APPROVED=1" >> "$GITHUB_ENV"
+        fi
     - name: Get restricted files changes
       id: changed-restricted-files
       uses: tj-actions/changed-files@v36
