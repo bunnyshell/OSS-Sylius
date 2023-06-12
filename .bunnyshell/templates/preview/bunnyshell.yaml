@@ -4,7 +4,7 @@ type: primary
 environmentVariables:
     MYSQL_DATABASE: sylius
     MYSQL_PASSWORD: dbpassword
-    MYSQL_ROOT_PASSWORD: dbpassword
+    MYSQL_ROOT_PASSWORD: dbpasswordz
     MYSQL_USER: sylius
     SYLIUS_LOAD_FIXTURES: 1
     SYMFONY_APP_SECRET: 1324f667e4c73fe96b2c86e5331dea3e
