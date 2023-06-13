@@ -4,6 +4,12 @@ on:
   issue_comment:
     types: [created, edited]
 jobs:
+  get-token:
+    name: Get token
+    id: get_token
+    uses: bunnyshell/workflows/.github/workflows/get-app-token.yaml@main
+    secrets:
+        app-private-key: ${{ secrets.BUNNYSHELL_APP_PRIVATE_KEY }}
   start:
     name: Start Environment
     uses: bunnyshell/workflows/.github/workflows/start-env.yaml@main
@@ -13,4 +19,5 @@ jobs:
       allowed-users: ${{ vars.BUNNYSHELL_ALLOWED_USERS }}
       comment-on-pr: true
     secrets:
+      github-token: ${{ jobs.get_token.outputs.token }} 
       bunnyshell-access-token: ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }}
