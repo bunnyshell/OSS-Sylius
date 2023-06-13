@@ -3,7 +3,7 @@ name: 'Sylius'
 type: primary
 environmentVariables:
     MYSQL_DATABASE: sylius
-    MYSQL_PASSWORD: dbpassword
+    MYSQL_PASSWORD: dbpasswordd
     MYSQL_ROOT_PASSWORD: dbpassword
     MYSQL_USER: sylius
     SYLIUS_LOAD_FIXTURES: 1
