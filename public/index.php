@@ -1,7 +1,5 @@
 <?php
 
-die('killed');
-
 declare(strict_types=1);
 
 use App\Kernel;
