@@ -21,6 +21,7 @@ jobs:
       allowed-users: ${{ vars.BUNNYSHELL_ALLOWED_USERS }}
       comment-on-pr: true
       as-stopped: true
+      git-ref: refs/pull/${{ github.event.number || github.event.issue.number }}/head
       restricted-files: |
           .bunnyshell/*
     secrets:

@@ -104,12 +104,6 @@ COPY --from=base /srv/sylius/src/Sylius/Bundle/ShopBundle/Resources/private     
 COPY webpack.config.js ./
 RUN yarn build:prod
 
-COPY .bunnyshell/docker/node/docker-entrypoint /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
-
-ENTRYPOINT ["docker-entrypoint"]
-CMD ["yarn", "build:prod"]
-
 FROM base AS sylius_php_prod
 
 COPY --from=sylius_node /srv/sylius/public/build public/build

@@ -20,7 +20,6 @@ components:
                 dockerfile: .bunnyshell/docker/php/Dockerfile
                 target: sylius_php_prod
             command: crond -f
-            entrypoint: /usr/local/bin/cron-entrypoint
             environment:
                 APP_DEBUG: '0'
                 APP_ENV: prod
