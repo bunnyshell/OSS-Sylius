@@ -23,8 +23,10 @@ jobs:
             allowed-users: ${{ vars.BUNNYSHELL_ALLOWED_USERS }}
             comment-on-pr: true
             deploy-as-stopped: true
+            use-app-token: true
             git-ref: refs/pull/${{ github.event.number || github.event.issue.number }}/head
             restricted-files: |
                 .bunnyshell/*
         secrets:
+            app-private-key: ${{ secrets.BUNNYSHELL_APP_PRIVATE_KEY }}
             bunnyshell-access-token: ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }}
