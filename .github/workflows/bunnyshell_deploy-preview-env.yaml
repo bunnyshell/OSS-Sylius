@@ -77,7 +77,7 @@ jobs:
   deploy:
     name: Deploy Environment
     needs: load-artifact
-    uses: bunnyshell/workflows/.github/workflows/deploy-env.yaml@split-deploy
+    uses: bunnyshell/workflows/.github/workflows/deploy-env.yaml@v1
     if: ${{ github.event.workflow_run.conclusion == 'success' && needs.load-artifact.outputs.skip-deployment == 'false' }}
     with:
       pr-number: "${{ needs.load-artifact.outputs.pr-number }}"

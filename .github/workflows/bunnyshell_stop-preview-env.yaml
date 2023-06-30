@@ -8,7 +8,7 @@ permissions:
 jobs:
     start:
         name: Stop Environment
-        uses: bunnyshell/workflows/.github/workflows/stop-env.yaml@split-deploy
+        uses: bunnyshell/workflows/.github/workflows/stop-env.yaml@v1
         with:
             project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
             env-name: 'Sylius PR #${{ github.event.issue.number }}'

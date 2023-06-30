@@ -12,7 +12,7 @@ permissions:
 jobs:
     start:
         name: Delete Environment
-        uses: bunnyshell/workflows/.github/workflows/delete-env.yaml@split-deploy
+        uses: bunnyshell/workflows/.github/workflows/delete-env.yaml@v1
         with:
             project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
             env-name: 'Sylius PR #${{ github.event.issue.number }}'
