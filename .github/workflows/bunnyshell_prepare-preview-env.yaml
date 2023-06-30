@@ -1,5 +1,4 @@
 name: Bunnyshell - Prepare Preview Environment Configuration
-concurrency: bns-deploy-${{ github.event.number || github.event.issue.number }}
 on:
     pull_request:
         types: [ opened, reopened, synchronize ]
