@@ -53,9 +53,11 @@ jobs:
           cat flags.json >> $GITHUB_ENV
           echo -e '\nEOFFLAGSJSON' >> $GITHUB_ENV
 
-          echo 'BUNNYSHELL_YAML_CONTENTS<<EOFBNSYAML' >> $GITHUB_ENV
-          cat bunnyshell.yaml >> $GITHUB_ENV
-          echo -e '\nEOFBNSYAML' >> $GITHUB_ENV
+          if [ -f "bunnyshell.yaml" ]; then
+            echo 'BUNNYSHELL_YAML_CONTENTS<<EOFBNSYAML' >> $GITHUB_ENV
+            cat bunnyshell.yaml >> $GITHUB_ENV
+            echo -e '\nEOFBNSYAML' >> $GITHUB_ENV
+          fi
       - name: Set variables
         run: |
           echo "IS_PULL_REQUEST=${{ fromJSON(env.EVENT_JSON).pull_request != '' }}" >> $GITHUB_ENV
