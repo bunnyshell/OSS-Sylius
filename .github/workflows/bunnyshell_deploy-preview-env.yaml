@@ -1,30 +1,89 @@
 name: Bunnyshell - Deploy Preview Environment
 concurrency: bns-deploy-${{ github.event.number || github.event.issue.number }}
 on:
-    pull_request:
-        types: [ opened, reopened, synchronize ]
-        branches:
-            - '*'
-        paths-ignore:
-            - "*.md"
-    issue_comment:
-        types: [ created, edited ]
+  workflow_run:
+    workflows:
+      - "Bunnyshell - Prepare Preview Environment Configuration"
+    types:
+      - completed
 permissions:
-    pull-requests: write
+  pull-requests: write
 jobs:
-    deploy:
-        name: Deploy Environment
-        uses: bunnyshell/workflows/.github/workflows/deploy-env.yaml@main
+  load-artifact:
+    name: Load artifact
+    runs-on: ubuntu-latest
+    outputs:
+      prNumber: ${{ env.PR_NUMBER }}
+      skipDeployment: ${{ fromJSON(env.FLAGS_JSON).skip_deployment }}
+      isPullRequestEvent: ${{ fromJSON(env.EVENT_JSON).pull_request != '' }}
+      bunnyshellYamlContents: ${{ env.BUNNYSHELL_YAML_CONTENTS }}
+    steps:
+      - name: Download artifact
+        uses: actions/github-script@v6
         with:
-            project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
-            cluster-id: ${{ vars.BUNNYSHELL_CLUSTER_ID }}
-            env-name: 'Sylius PR #${{ github.event.number || github.event.issue.number }}'
-            bunnyshell-yaml-path: .bunnyshell/templates/preview/bunnyshell.yaml
-            allowed-users: ${{ vars.BUNNYSHELL_ALLOWED_USERS }}
-            comment-on-pr: true
-            deploy-as-stopped: true
-            git-ref: refs/pull/${{ github.event.number || github.event.issue.number }}/head
-            restricted-files: |
-                .bunnyshell/*
-        secrets:
-            bunnyshell-access-token: ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }}
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "bunnyshell"
+            })[0];
+            if (matchArtifact === undefined) {
+              throw TypeError('Build Artifact not found!');
+            }
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/artifact.zip`, Buffer.from(download.data));
+      - name: Load artifact data
+        run: |
+          unzip artifact.zip
+
+          echo 'EVENT_JSON<<EOFEVENTJSON' >> $GITHUB_ENV
+          cat event.json >> $GITHUB_ENV
+          echo -e '\nEOFEVENTJSON' >> $GITHUB_ENV
+
+          echo 'FLAGS_JSON<<EOFFLAGSJSON' >> $GITHUB_ENV
+          cat flags.json >> $GITHUB_ENV
+          echo -e '\nEOFFLAGSJSON' >> $GITHUB_ENV
+
+          echo 'BUNNYSHELL_YAML_CONTENTS<<EOFBNSYAML' >> $GITHUB_ENV
+          cat bunnyshell.yaml >> $GITHUB_ENV
+          echo -e '\nEOFBNSYAML' >> $GITHUB_ENV
+      - name: Set variables
+        run: |
+          echo "IS_PULL_REQUEST=${{ fromJSON(env.EVENT_JSON).pull_request != '' }}" >> $GITHUB_ENV
+          echo "IS_ISSUE_COMMENT=${{ fromJSON(env.EVENT_JSON).issue.pull_request != '' }}" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ fromJSON(env.EVENT_JSON).issue.number || fromJSON(env.EVENT_JSON).number }}" >> $GITHUB_ENV
+      - name: Comment unapproved deployment
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ fromJSON(env.FLAGS_JSON).skip_deployment }}
+        with:
+          message: |
+            ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
+
+            Add a comment containing `/bns:deploy` to approve the creation of the environment.
+          comment_tag: deploy-${{ github.run_id }}
+          pr_number: ${{ env.PR_NUMBER }}
+          reactions: eyes
+  deploy:
+    name: Deploy Environment
+    needs: load-artifact
+    uses: bunnyshell/workflows/.github/workflows/deploy-env.yaml@split-deploy
+    if: ${{ needs.load-artifact.outputs.skipDeployment == 'false' }}
+    with:
+      pr-number: "${{ needs.load-artifact.outputs.prNumber }}"
+      project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
+      cluster-id: ${{ vars.BUNNYSHELL_CLUSTER_ID }}
+      env-name: "Sylius PR #${{ needs.load-artifact.outputs.prNumber }}"
+      bunnyshell-yaml-contents: ${{ needs.load-artifact.outputs.bunnyshellYamlContents }}
+      comment-on-pr: true
+      deploy-as-stopped: ${{ needs.load-artifact.outputs.isPullRequestEvent == 'true' }}
+    secrets:
+      bunnyshell-access-token: ${{ secrets.BUNNYSHELL_ACCESS_TOKEN }}
