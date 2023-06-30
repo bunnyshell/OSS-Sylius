@@ -71,9 +71,8 @@ jobs:
             ### Bunnyshell Preview Environment automatic creation skipped due to restricted files changes.
 
             Add a comment containing `/bns:deploy` to approve the creation of the environment.
-          comment_tag: deploy-${{ github.run_id }}
+          comment_tag: bunnyshell-${{ env.PR_NUMBER }}
           pr_number: ${{ env.PR_NUMBER }}
-          reactions: eyes
   deploy:
     name: Deploy Environment
     needs: load-artifact

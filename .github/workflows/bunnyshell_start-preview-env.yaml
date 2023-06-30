@@ -8,7 +8,7 @@ permissions:
 jobs:
     start:
         name: Start Environment
-        uses: bunnyshell/workflows/.github/workflows/start-env.yaml@main
+        uses: bunnyshell/workflows/.github/workflows/start-env.yaml@split-deploy
         with:
             project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
             env-name: 'Sylius PR #${{ github.event.issue.number }}'
