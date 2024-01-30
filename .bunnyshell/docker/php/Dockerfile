@@ -121,7 +121,7 @@ RUN env
 
 RUN cat package.json
 
-RUN cat package-lock.json
+# RUN cat package-lock.json
 
 RUN npm run build:prod
 
