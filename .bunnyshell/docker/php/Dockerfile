@@ -117,6 +117,10 @@ RUN ls -al ./node_modules/
 
 RUN ls -al ./node_modules/slugify/
 
+RUN cat package.json
+
+RUN cat package-lock.json
+
 RUN npm run build:prod
 
 FROM base AS sylius_php_prod
