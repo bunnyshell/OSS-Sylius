@@ -94,7 +94,7 @@ RUN set -eux; \
 # prevent the reinstallation of vendors at every changes in the source code
 COPY package.json package-*.json ./
 RUN set -eux; \
-    npm install;
+    npm install --include=dev;
 
 COPY --from=base /srv/sylius/src/Sylius/Bundle/UiBundle/Resources/private       src/Sylius/Bundle/UiBundle/Resources/private/
 COPY --from=base /srv/sylius/src/Sylius/Bundle/AdminBundle                      src/Sylius/Bundle/AdminBundle/
