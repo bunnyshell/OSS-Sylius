@@ -117,6 +117,8 @@ RUN ls -al ./node_modules/
 
 # RUN ls -al ./node_modules/slugify/
 
+RUN env
+
 RUN cat package.json
 
 RUN cat package-lock.json
