@@ -92,17 +92,17 @@ RUN set -eux; \
 	;
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY package.json yarn.* ./
+COPY package.json package-lock.json ./
 RUN set -eux; \
-    yarn install; \
-    yarn cache clean
+    npm install; \
+    npm cache clean
 
 COPY --from=base /srv/sylius/src/Sylius/Bundle/UiBundle/Resources/private       src/Sylius/Bundle/UiBundle/Resources/private/
 COPY --from=base /srv/sylius/src/Sylius/Bundle/AdminBundle/Resources/private    src/Sylius/Bundle/AdminBundle/Resources/private/
 COPY --from=base /srv/sylius/src/Sylius/Bundle/ShopBundle/Resources/private     src/Sylius/Bundle/ShopBundle/Resources/private/
 
 COPY webpack.config.js ./
-RUN yarn build:prod
+RUN npm run build:prod
 
 FROM base AS sylius_php_prod
 
