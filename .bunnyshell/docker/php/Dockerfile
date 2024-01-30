@@ -102,6 +102,21 @@ COPY --from=base /srv/sylius/src/Sylius/Bundle/ShopBundle/Resources/private     
 COPY --from=base /srv/sylius/vendor/symfony/ux-live-component/assets            vendor/symfony/ux-live-component/assets/
 
 COPY webpack.config.js ./
+
+RUN echo "A"
+
+RUN pwd
+
+RUN ls -al .
+
+RUN node -v
+
+RUN cat webpack.config.js
+
+RUN ls -al ./node_modules/
+
+RUN ls -al ./node_modules/slugify/
+
 RUN npm run build:prod
 
 FROM base AS sylius_php_prod
