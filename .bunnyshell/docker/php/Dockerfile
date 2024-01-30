@@ -89,6 +89,7 @@ RUN set -eux; \
 		g++ \
 		gcc \
 		make \
+        git \
 	;
 
 # prevent the reinstallation of vendors at every changes in the source code
@@ -100,7 +101,7 @@ COPY --from=base /srv/sylius/src/Sylius/Bundle/ShopBundle/Resources/private     
 COPY --from=base /srv/sylius/vendor/symfony/ux-live-component/assets            vendor/symfony/ux-live-component/assets/
 
 RUN set -eux; \
-    npm install --include=dev;
+    npm install;
 
 COPY webpack.config.js ./
 
