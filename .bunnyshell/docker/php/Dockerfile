@@ -92,14 +92,14 @@ RUN set -eux; \
 	;
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY package.json package-lock.json ./
+COPY package.json package-*.json ./
 RUN set -eux; \
-    npm install; \
-    npm cache clean
+    npm install;
 
 COPY --from=base /srv/sylius/src/Sylius/Bundle/UiBundle/Resources/private       src/Sylius/Bundle/UiBundle/Resources/private/
-COPY --from=base /srv/sylius/src/Sylius/Bundle/AdminBundle/Resources/private    src/Sylius/Bundle/AdminBundle/Resources/private/
+COPY --from=base /srv/sylius/src/Sylius/Bundle/AdminBundle                      src/Sylius/Bundle/AdminBundle/
 COPY --from=base /srv/sylius/src/Sylius/Bundle/ShopBundle/Resources/private     src/Sylius/Bundle/ShopBundle/Resources/private/
+COPY --from=base /srv/sylius/vendor/symfony/ux-live-component/assets            vendor/symfony/ux-live-component/assets/
 
 COPY webpack.config.js ./
 RUN npm run build:prod
