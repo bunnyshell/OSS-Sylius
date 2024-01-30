@@ -115,7 +115,7 @@ RUN cat webpack.config.js
 
 RUN ls -al ./node_modules/
 
-RUN ls -al ./node_modules/slugify/
+# RUN ls -al ./node_modules/slugify/
 
 RUN cat package.json
 
