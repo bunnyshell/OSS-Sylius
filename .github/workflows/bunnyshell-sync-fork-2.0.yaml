@@ -1,0 +1,21 @@
+name: Sync Fork 2.0
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # every 30 minutes
+  workflow_dispatch: # on button click
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: tgymnich/fork-sync@v1.8
+        with:
+          base: 2.0
+          head: 2.0
+          token: ${{ secrets.SYNC_FORK_PAT }}
+          merge_method: rebase
+          pr_title: Sync Fork 2.0
+          auto_merge: true
