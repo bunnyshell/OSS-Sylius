@@ -16,32 +16,49 @@ jobs:
       BNS_YAML_PATH: '.bunnyshell/templates/preview/bunnyshell.yaml'
 
     steps:
-      - name: Sync branch with wpstream
+      - name: Sync branch with upstream
         env:
             GH_TOKEN: ${{ github.token }}
         run: |
+          # this works because BNS_GIT_FOLLOW_BRANCH is the default branch
+          PRE_SYNC_COMMIT=$(git rev-parse HEAD)
           gh repo sync ${BNS_GIT_DEST_REPO_NAME} --branch ${BNS_GIT_FOLLOW_BRANCH} --force
+          POST_SYNC_COMMIT=$(git rev-parse HEAD)
+          if [ "$PRE_SYNC_COMMIT" = "$POST_SYNC_COMMIT" ]; then
+            echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
+          else
+            echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          fi
+
+      - name: Stop Workflow If No Changes
+        if: env.CHANGES_DETECTED == 'false'
+        run: echo "No updates detected. Workflow stopping here."
           
       - name: Checkout repository
+        if: env.CHANGES_DETECTED == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 1 # Fetch shallow history for efficiency
           ref: ${{ env.BNS_GIT_FOLLOW_BRANCH }}
 
       - name: Set config user
+        if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.email "devops@bunnyshell.com"
           git config --global user.name "Bunnyshell"
 
       - name: Checkout to dest branch
+        if: env.CHANGES_DETECTED == 'true'
         run: |
             git checkout --force -B ${BNS_GIT_DEST_BRANCH} refs/remotes/origin/${BNS_GIT_DEST_BRANCH}
             git rebase ${BNS_GIT_FOLLOW_BRANCH} -X ours || (git rebase --abort && exit 1)
 
       - name: Setup yq
+        if: env.CHANGES_DETECTED == 'true'
         uses: frenck/action-setup-yq@v1
         
       - name: Update bunnyshell.yaml file
+        if: env.CHANGES_DETECTED == 'true'
         run: |
           yq "(.components[] | select(.gitRepo != null)).gitRepo |= \"$BNS_GIT_DEST_REPO_URL\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
           mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
@@ -51,4 +68,5 @@ jobs:
           git commit -m "Update bunnyshell.yaml" || echo "No changes to commit"
 
       - name: Push Updates to dest branch
+        if: env.CHANGES_DETECTED == 'true'
         run: git push origin ${BNS_GIT_DEST_BRANCH} --force
