@@ -1,0 +1,54 @@
+name: Sync Fork 2.0
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # at midnight
+  workflow_dispatch: # on button click
+
+jobs:
+  sync-and-tweak:
+    runs-on: ubuntu-latest
+    env:
+      BNS_GIT_DEST_REPO_URL: 'https://github.com/bunnyshell/OSS-Sylius.git'
+      BNS_GIT_DEST_REPO_NAME: 'bunnyshell/OSS-Sylius'
+      BNS_GIT_DEST_BRANCH: '2.0-bns'
+      BNS_GIT_FOLLOW_BRANCH: '2.0'
+      BNS_YAML_PATH: '.bunnyshell/templates/preview/bunnyshell.yaml'
+
+    steps:
+      - name: Sync branch with wpstream
+        env:
+            GH_TOKEN: ${{ github.token }}
+        run: |
+          gh repo sync ${BNS_GIT_DEST_REPO_NAME} --branch ${BNS_GIT_FOLLOW_BRANCH} --force
+          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1 # Fetch shallow history for efficiency
+          ref: ${BNS_GIT_FOLLOW_BRANCH}
+
+      - name: Set config user
+        run: |
+          git config --global user.email "devops@bunnyshell.com"
+          git config --global user.name "Bunnyshell"
+
+      - name: Checkout to dest branch
+        run: |
+            git checkout --force -B ${BNS_GIT_DEST_BRANCH} refs/remotes/origin/${BNS_GIT_DEST_BRANCH}
+            git rebase ${BNS_GIT_FOLLOW_BRANCH} -X ours || (git rebase --abort && exit 1)
+
+      - name: Setup yq
+        uses: frenck/action-setup-yq@v1
+        
+      - name: Update bunnyshell.yaml file
+        run: |
+          yq "(.components[] | select(.gitRepo != null)).gitRepo |= \"$BNS_GIT_DEST_REPO_URL\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
+          mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
+          yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$BNS_GIT_DEST_BRANCH\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
+          mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
+          git add $BNS_YAML_PATH
+          git commit -m "Update bunnyshell.yaml" || echo "No changes to commit"
+
+      - name: Push Updates to dest branch
+        run: git push origin ${BNS_GIT_DEST_BRANCH} --force
