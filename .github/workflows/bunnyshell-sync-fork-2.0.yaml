@@ -1,4 +1,4 @@
-name: Sync Fork 2.0
+name: Bunnyshell - Sync Fork 2.0
 
 on:
   schedule:
@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1 # Fetch shallow history for efficiency
-          ref: ${BNS_GIT_FOLLOW_BRANCH}
+          ref: ${{ env.BNS_GIT_FOLLOW_BRANCH }}
 
       - name: Set config user
         run: |
