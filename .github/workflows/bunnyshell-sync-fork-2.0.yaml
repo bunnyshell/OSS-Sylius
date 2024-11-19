@@ -21,9 +21,9 @@ jobs:
             GH_TOKEN: ${{ github.token }}
         run: |
           # this works because BNS_GIT_FOLLOW_BRANCH is the default branch
-          PRE_SYNC_COMMIT=$(git rev-parse HEAD)
+          PRE_SYNC_COMMIT=$(gh api repos/${BNS_GIT_DEST_REPO_NAME}/commits/${BNS_GIT_FOLLOW_BRANCH} --jq '.sha')
           gh repo sync ${BNS_GIT_DEST_REPO_NAME} --branch ${BNS_GIT_FOLLOW_BRANCH} --force
-          POST_SYNC_COMMIT=$(git rev-parse HEAD)
+          POST_SYNC_COMMIT=$(gh api repos/${BNS_GIT_DEST_REPO_NAME}/commits/${BNS_GIT_FOLLOW_BRANCH} --jq '.sha')
           if [ "$PRE_SYNC_COMMIT" = "$POST_SYNC_COMMIT" ]; then
             echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
           else
