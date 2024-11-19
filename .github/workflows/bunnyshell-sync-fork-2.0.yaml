@@ -64,6 +64,7 @@ jobs:
           mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
           yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$BNS_GIT_DEST_BRANCH\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
           mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
+          yq "del(.components[].dockerCompose.cap_add)" -i $BNS_YAML_PATH
           git add $BNS_YAML_PATH
           git commit -m "Update bunnyshell.yaml" || echo "No changes to commit"
 
