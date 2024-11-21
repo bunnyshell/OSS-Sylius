@@ -10,9 +10,6 @@ on:
         required: false
         default: "false"
 
-permissions:
-  contents: write
-
 jobs:
   sync-and-tweak:
     runs-on: ubuntu-latest
@@ -26,7 +23,7 @@ jobs:
     steps:
       - name: Sync branch with upstream
         env:
-            GH_TOKEN: ${{ github.token }}
+            GH_TOKEN: ${{ secrets.GH_SYNC_PAT }}
         run: |
           # this works because BNS_GIT_FOLLOW_BRANCH is the default branch
           PRE_SYNC_COMMIT=$(gh api repos/${BNS_GIT_DEST_REPO_NAME}/commits/${BNS_GIT_FOLLOW_BRANCH} --jq '.sha')
