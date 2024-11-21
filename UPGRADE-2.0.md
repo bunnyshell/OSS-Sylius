@@ -401,10 +401,576 @@ your app as necessary.
         )
     ```
 
-1. Change across the codebase:
+   `Sylius\Bundle\AdminBundle\Action\ResendOrderConfirmationEmailAction`
     ```diff
-    -   private StateMachineInterface $stateMachineFactory,
+        use Symfony\Component\Routing\RouterInterface;
+        public function __construct(
+            private OrderRepositoryInterface $orderRepository,
+    -       private OrderEmailManagerInterface|ResendOrderConfirmationEmailDispatcherInterface $orderEmailManager,
+    +       private ResendOrderConfirmationEmailDispatcherInterface $resendOrderConfirmationEmailDispatcher,
+            private CsrfTokenManagerInterface $csrfTokenManager,
+    -       private RequestStack|SessionInterface $requestStackOrSession,
+    +       private RequestStack $requestStack,
+    -       private ?RouterInterface $router = null,
+    +       private RouterInterface $router,
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\Action\ResendShipmentConfirmationEmailAction`
+    ```diff
+        use Sylius\Bundle\AdminBundle\EmailManager\ShipmentEmailManagerInterface;
+        use Sylius\Bundle\CoreBundle\MessageDispatcher\ResendShipmentConfirmationEmailDispatcherInterface;
+    
+        public function __construct(
+            private ShipmentRepositoryInterface $shipmentRepository,
+    -       private ResendShipmentConfirmationEmailDispatcherInterface|ShipmentEmailManagerInterface $shipmentEmailManager,
+    +       private ResendShipmentConfirmationEmailDispatcherInterface $resendShipmentConfirmationDispatcher,
+            private CsrfTokenManagerInterface $csrfTokenManager,
+    -       private RequestStack|SessionInterface $requestStackOrSession,
+    +       private RequestStack $requestStack,
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\Controller\ImpersonateUserController`
+    ```diff
+        use Symfony\Component\Routing\RouterInterface;
+    
+        public function __construct(
+            private UserImpersonatorInterface $impersonator,
+            private AuthorizationCheckerInterface $authorizationChecker,
+            private UserProviderInterface $userProvider,
+    -       ?RouterInterface $router,
+    +       private RouterInterface $router,
+            private string $authorizationRole,
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\EventListener\ShipmentShipListener`
+    ```diff
+        use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface;
+    
+        public function __construct(
+    -       private DeprecatedShipmentEmailManagerInterface|ShipmentEmailManagerInterface $shipmentEmailManager
+    +       private ShipmentEmailManagerInterface $shipmentEmailManager
+        )
+    ```
+
+   `Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\SelectAttributeChoicesCollectionType`
+    ```diff
+        use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
+
+        public function __construct(
+    -       ?TranslationLocaleProviderInterface $localeProvider = null,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\CatalogPromotion\Processor\CatalogPromotionRemovalProcessor`
+    ```diff
+        use Sylius\Bundle\CoreBundle\CatalogPromotion\Announcer\CatalogPromotionRemovalAnnouncerInterface;
+        use Symfony\Component\Messenger\MessageBusInterface;
+    
+        public function __construct(
+            private CatalogPromotionRepositoryInterface $catalogPromotionRepository,
+    -       private CatalogPromotionRemovalAnnouncerInterface|MessageBusInterface $catalogPromotionRemovalAnnouncer,
+    -       private ?MessageBusInterface $eventBus = null,
+    +       private CatalogPromotionRemovalAnnouncerInterface $catalogPromotionRemovalAnnouncer,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory`
+    ```diff
+        use Symfony\Component\Config\FileLocatorInterface;
+    
+        public function __construct(
+            private FactoryInterface $productFactory,
+            private FactoryInterface $productVariantFactory,
+            private FactoryInterface $channelPricingFactory,
+            private ProductVariantGeneratorInterface $variantGenerator,
+            private FactoryInterface $productAttributeValueFactory,
+            private FactoryInterface $productImageFactory,
+            private FactoryInterface $productTaxonFactory,
+            private ImageUploaderInterface $imageUploader,
+            private SlugGeneratorInterface $slugGenerator,
+            private RepositoryInterface $taxonRepository,
+            private RepositoryInterface $productAttributeRepository,
+            private RepositoryInterface $productOptionRepository,
+            private RepositoryInterface $channelRepository,
+            private RepositoryInterface $localeRepository,
+    -       private ?RepositoryInterface $taxCategoryRepository = null,
+    -       private ?FileLocatorInterface $fileLocator = null,
+    +       private RepositoryInterface $taxCategoryRepository,
+    +       private FileLocatorInterface $fileLocator,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\EventListener\PaymentPreCompleteListener`
+    ```diff
+        public function __construct(
+    +       private OrderItemAvailabilityCheckerInterface|AvailabilityCheckerInterface $availabilityChecker,
+    -       private AvailabilityCheckerInterface $availabilityChecker,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Fixture\Factory\PromotionExampleFactory`
+    ```diff
+        use Sylius\Component\Resource\Repository\RepositoryInterface;
+    
+        public function __construct(
+            private FactoryInterface $promotionFactory,
+            private ExampleFactoryInterface $promotionRuleExampleFactory,
+            private ExampleFactoryInterface $promotionActionExampleFactory,
+            private ChannelRepositoryInterface $channelRepository,
+    -       private ?FactoryInterface $couponFactory = null,
+    -       private ?RepositoryInterface $localeRepository = null,
+    +       private FactoryInterface $couponFactory,
+    +       private RepositoryInterface $localeRepository,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Installer\Provider\DatabaseSetupCommandsProvider`
+    ```diff
+        use Doctrine\Bundle\DoctrineBundle\Registry;
+        use Doctrine\ORM\EntityManagerInterface;
+    
+        public function __construct(
+    -       Registry $doctrineRegistry,
+    +       EntityManagerInterface $entityManager,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Installer\Setup\LocaleSetup`
+    ```diff
+        use Symfony\Component\Filesystem\Filesystem;
+    
+        public function __construct(
+            private RepositoryInterface $localeRepository,
+            private FactoryInterface $localeFactory,
+            private string $locale,
+    -       private ?Filesystem $filesystem = null,
+    -       private ?string $localeParameterFilePath,
+    +       private Filesystem $filesystem,
+    +       private string $localeParameterFilePath,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Validator\Constraints\HasEnabledEntityValidator`
+    ```diff
+        use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+    
+        public function __construct(
+            private ManagerRegistry $registry,
+    -       private ?PropertyAccessorInterface $accessor = null,
+    +       private PropertyAccessorInterface $accessor,
+        )
+    ```
+
+    `Sylius\Bundle\ShopBundle\EventListener\OrderCompleteListener`
+    ```diff
+        use Sylius\Bundle\CoreBundle\Mailer\OrderEmailManagerInterface;
+        use Sylius\Bundle\ShopBundle\EmailManager\OrderEmailManagerInterface as DeprecatedOrderEmailManagerInterface;
+    
+        public function __construct(
+    -       private DeprecatedOrderEmailManagerInterface|OrderEmailManagerInterface $orderEmailManager
+    +       private OrderEmailManagerInterface $orderEmailManager
+        )
+    ```
+
+    `Sylius\Bundle\ShopBundle\Controller\ContactController`
+    ```diff
+        use Sylius\Bundle\CoreBundle\Mailer\ContactEmailManagerInterface;
+        use Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManagerInterface as DeprecatedContactEmailManagerInterface;
+    
+        public function __construct(
+            private RouterInterface $router,
+            private FormFactoryInterface $formFactory,
+            private Environment $templatingEngine,
+            private ChannelContextInterface $channelContext,
+            private CustomerContextInterface $customerContext,
+            private LocaleContextInterface $localeContext,
+    -       private ContactEmailManagerInterface|DeprecatedContactEmailManagerInterface $contactEmailManager,
+    +       private ContactEmailManagerInterface $contactEmailManager,
+        )
+    ```
+
+    `Sylius\Component\Addressing\Matcher\ZoneMatcher`
+    ```diff
+        use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
+        use Sylius\Component\Resource\Repository\RepositoryInterface;
+    
+        public function __construct(
+    -       private RepositoryInterface|ZoneRepositoryInterface $zoneRepository
+    +       private ZoneRepositoryInterface $zoneRepository
+        )
+    ```
+
+    `Sylius\Component\Core\Updater\UnpaidOrdersStateUpdater`
+    ```diff
+        use Doctrine\Persistence\ObjectManager;
+        use SM\Factory\Factory;
+        use Sylius\Abstraction\StateMachine\StateMachineInterface;
+    
+        public function __construct(
+            private OrderRepositoryInterface $orderRepository,
+    -       private Factory|StateMachineInterface $stateMachineFactory,
+    +       private StateMachineInterface $stateMachine,
+            private string $expirationPeriod,
+    -       private ?LoggerInterface $logger = null,
+    -       private ?ObjectManager $orderManager = null,
+    +       private LoggerInterface $logger,
+    +       private ObjectManager $orderManager,
+            private int $batchSize = 100,
+        )
+    ```
+
+    `Sylius\Component\Core\Calculator\ProductVariantPriceCalculator`
+    ```diff
+        use Sylius\Component\Core\Checker\ProductVariantLowestPriceDisplayCheckerInterface;
+    
+        public function __construct(
+    -       private ?ProductVariantLowestPriceDisplayCheckerInterface $productVariantLowestPriceDisplayChecker = null,
+    +       private ProductVariantLowestPriceDisplayCheckerInterface $productVariantLowestPriceDisplayChecker,
+        )
+    ```
+
+    `Sylius\Component\Core\Taxation\Applicator\OrderItemsTaxesApplicator`
+    ```diff
+        use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
+    
+        public function __construct(
+            private CalculatorInterface $calculator,
+            private AdjustmentFactoryInterface $adjustmentFactory,
+            private IntegerDistributorInterface $distributor,
+            private TaxRateResolverInterface $taxRateResolver,
+    -       private ?ProportionalIntegerDistributorInterface $proportionalIntegerDistributor = null,
+    +       private ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
+        )
+    ```
+
+    `Sylius\Component\Core\Taxation\Applicator\OrderItemUnitsTaxesApplicator`
+    ```diff
+        use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
+    
+        public function __construct(
+            CalculatorInterface $calculator,
+            AdjustmentFactoryInterface $adjustmentFactory,
+            TaxRateResolverInterface $taxRateResolver,
+    +       ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
+        )
+    ```
+
+    `Sylius\Component\Product\Resolver\DefaultProductVariantResolver`
+    ```diff
+        public function __construct(
+    -       private ?ProductVariantRepositoryInterface $productVariantRepository = null
+    +       private readonly ProductVariantRepositoryInterface $productVariantRepository
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\EventListener\TaxonDeletionListener`
+    ```diff
+        public function __construct(
+    -       private RequestStack|SessionInterface $requestStackOrSession,
+    +       private RequestStack $requestStack,
+            private ChannelRepositoryInterface $channelRepository,
+            private TaxonInPromotionRuleCheckerInterface $taxonInPromotionRuleChecker,
+            TaxonAwareRuleUpdaterInterface ...$ruleUpdaters,
+        )
+    ```
+
+    `Sylius\Component\Core\Cart\Context\ShopBasedCartContext`
+    ```diff
+       public function __construct(
+           private CartContextInterface $cartContext,
+           private ShopperContextInterface $shopperContext,
+    -      private ?CreatedByGuestFlagResolverInterface $createdByGuestFlagResolver = null,
+    +      private CreatedByGuestFlagResolverInterface $createdByGuestFlagResolver,
+       )
+    ```
+
+    `Sylius\Component\Core\Uploader\ImageUploader`
+    ```diff
+        public function __construct(
+    -       protected FilesystemAdapterInterface|FilesystemInterface $filesystem,
+    -       protected ?ImagePathGeneratorInterface $imagePathGenerator = null,
+    +       protected readonly FilesystemAdapterInterface $filesystem,
+    +       protected readonly ImagePathGeneratorInterface $imagePathGenerator,
+        )
+    ```
+
+    `Sylius\Component\Taxation\Resolver\TaxRateResolver`
+    ```diff
+        public function __construct(
+            protected RepositoryInterface $taxRateRepository,
+    -       protected ?TaxRateDateEligibilityCheckerInterface $taxRateDateChecker = null,
+    +       protected TaxRateDateEligibilityCheckerInterface $taxRateDateChecker,
+        )
+    ```
+
+    `Sylius\Bundle\AddressingBundle\Form\Type\ZoneChoiceType`
+    ```diff
+        public function __construct(
+            private RepositoryInterface $zoneRepository,
+    -       private array $scopeTypes = []
+    +       private readonly array $scopeTypes,
+        )
+    ```
+
+    `Sylius\Component\Core\OrderProcessing\OrderPricesRecalculator`
+    ```diff
+        public function __construct(
+    -       private ProductVariantPriceCalculatorInterface|ProductVariantPricesCalculatorInterface $productVariantPriceCalculator
+    +       private ProductVariantPricesCalculatorInterface $productVariantPricesCalculator
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\Action\Account\RenderResetPasswordPageAction`
+    ```diff
+        public function __construct(
+            private UserRepositoryInterface $userRepository,
+            private FormFactoryInterface $formFactory,
+    -       private FlashBagInterface|RequestStack $requestStackOrFlashBag,
+    +       private RequestStack $requestStack,
+            private RouterInterface $router,
+            private Environment $twig,
+            private string $tokenTtl,
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\Action\Account\ResetPasswordAction`
+    ```diff
+        public function __construct(
+            private FormFactoryInterface $formFactory,
+            private ResetPasswordDispatcherInterface $resetPasswordDispatcher,
+    -       private FlashBagInterface|RequestStack $requestStackOrFlashBag,
+    +       private RequestStack $requestStack,
+            private RouterInterface $router,
+            private Environment $twig,
+        )
+    ```
+
+    `Sylius\Bundle\AdminBundle\Event\OrderShowMenuBuilderEvent`
+    ```diff
+        public function __construct(
+            FactoryInterface $factory,
+            ItemInterface $menu,
+            private OrderInterface $order,
+    -       private StateMachineInterface|WinzouStateMachineInterface $stateMachine,
+    +       private StateMachineInterface $stateMachine,
+        )
+    ```
+
+    `Sylius\Bundle\AttributeBundle\Form\Type\AttributeValueType`
+    ```diff
+        public function __construct(
+            string $dataClass,
+            array $validationGroups,
+            protected string $attributeChoiceType,
+            protected RepositoryInterface $attributeRepository,
+            protected RepositoryInterface $localeRepository,
+            protected FormTypeRegistryInterface $formTypeRegistry,
+    -       protected ?DataTransformerInterface $localeToCodeTransformer = null,
+    +       protected DataTransformerInterface $localeToCodeTransformer,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\CatalogPromotion\Processor\CatalogPromotionRemovalProcessor`
+    ```diff
+        public function __construct(
+            private CatalogPromotionRepositoryInterface $catalogPromotionRepository,
+    -       private CatalogPromotionRemovalAnnouncerInterface|MessageBusInterface $catalogPromotionRemovalAnnouncer,
+    -       private ?MessageBusInterface $eventBus = null, /** @phpstan-ignore-line */
+    +       private CatalogPromotionRemovalAnnouncerInterface $catalogPromotionRemovalAnnouncer,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Fixture\Factory\AdminUserExampleFactory`
+    ```diff
+        public function __construct(
+            private FactoryInterface $userFactory,
+            private string $localeCode,
+    -       private ?FileLocatorInterface $fileLocator = null,
+    -       private ?ImageUploaderInterface $imageUploader = null,
+    -       private ?FactoryInterface $avatarImageFactory = null,
+    +       private FileLocatorInterface $fileLocator,
+    +       private ImageUploaderInterface $imageUploader,
+    +       private FactoryInterface $avatarImageFactory,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Fixture\Factory\ChannelExampleFactory`
+    ```diff
+        public function __construct(
+            private ChannelFactoryInterface $channelFactory,
+            private RepositoryInterface $localeRepository,
+            private RepositoryInterface $currencyRepository,
+            private RepositoryInterface $zoneRepository,
+    -       ?TaxonRepositoryInterface $taxonRepository = null,
+    -       ?FactoryInterface $shopBillingDataFactory = null,
+    +       private TaxonRepositoryInterface $taxonRepository,
+    +       private FactoryInterface $shopBillingDataFactory,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Fixture\Factory\ShippingMethodExampleFactory`
+    ```diff
+        public function __construct(
+            private FactoryInterface $shippingMethodFactory,
+            private RepositoryInterface $zoneRepository,
+            private RepositoryInterface $shippingCategoryRepository,
+            private RepositoryInterface $localeRepository,
+            private ChannelRepositoryInterface $channelRepository,
+    -       private ?RepositoryInterface $taxCategoryRepository = null,
+    +       private RepositoryInterface $taxCategoryRepository,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Installer\Requirement\FilesystemRequirements`
+    ```diff
+        public function __construct(
+            TranslatorInterface $translator,
+            string $cacheDir,
+            string $logsDir,
+    -       ?string $rootDir = null
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Twig\CheckoutStepsExtension`
+    ```diff
+        public function __construct(
+    -       private readonly CheckoutStepsHelper|OrderPaymentMethodSelectionRequirementCheckerInterface $checkoutStepsHelper,
+    -       private readonly ?OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker = null,
+    +       private readonly OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
+    +       private readonly OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Twig\PriceExtension`
+    ```diff
+        public function __construct(
+    -       private readonly PriceHelper|ProductVariantPricesCalculatorInterface $helper
+    +       private readonly ProductVariantPricesCalculatorInterface $productVariantPricesCalculator
+        )
+    ```
+
+    `Sylius\Bundle\CoreBundle\Twig\VariantResolverExtension`
+    ```diff
+        public function __construct(
+    -       private readonly ProductVariantResolverInterface|VariantResolverHelper $helper
+    +       private readonly ProductVariantResolverInterface $productVariantResolver
+        )
+    ```
+
+    `Sylius\Bundle\ProductBundle\Form\Type\ProductOptionValueChoiceType`
+    ```diff
+        public function __construct(
+    -       ?AvailableProductOptionValuesResolverInterface $availableProductOptionValuesResolver = null
+    +       private readonly AvailableProductOptionValuesResolverInterface $availableProductOptionValuesResolver
+        )
+    ```
+
+    `Sylius\Bundle\ShopBundle\Controller\ContactController`
+    ```diff
+        public function __construct(
+            private RouterInterface $router,
+            private FormFactoryInterface $formFactory,
+            private Environment $templatingEngine,
+            private ChannelContextInterface $channelContext,
+            private CustomerContextInterface $customerContext,
+            private LocaleContextInterface $localeContext,
+    -       private ContactEmailManagerInterface|DeprecatedContactEmailManagerInterface $contactEmailManager,
+    +       private ContactEmailManagerInterface $contactEmailManager,
+        )
+    ```
+
+    `Sylius\Bundle\ShopBundle\EventListener\OrderCompleteListener`
+    ```diff
+        public function __construct(
+    -       private DeprecatedOrderEmailManagerInterface|OrderEmailManagerInterface $orderEmailManager
+    +       private OrderEmailManagerInterface $orderEmailManager
+        )
+    ```
+
+    `Sylius\Bundle\UserBundle\Controller\SecurityController`
+    ```diff
+        public function __construct(
+    -       private ?AuthenticationUtils $authenticationUtils = null,
+    -       private ?FormFactoryInterface $formFactory = null,
+    +       private AuthenticationUtils $authenticationUtils,
+    +       private FormFactoryInterface $formFactory,
+    +       private Environment $twig,
+        )
+    ```
+
+    `Sylius\Component\Core\Calculator\ProductVariantPriceCalculator`
+    ```diff
+        public function __construct(
+    -       private ?ProductVariantLowestPriceDisplayCheckerInterface $productVariantLowestPriceDisplayChecker = null,
+    +       private ProductVariantLowestPriceDisplayCheckerInterface $productVariantLowestPriceDisplayChecker,
+        )
+    ```
+
+    `Sylius\Component\Core\Factory\ChannelFactory`
+    ```diff
+        public function __construct(
+            private FactoryInterface $decoratedFactory,
+            private string $defaultCalculationStrategy,
+    -       private ?FactoryInterface $channelPriceHistoryConfigFactory = null,
+    +       private FactoryInterface $channelPriceHistoryConfigFactory,
+        )
+    ```
+
+    `Sylius\Component\Core\Promotion\Checker\Rule\ItemTotalRuleChecker`
+    ```diff
+        public function __construct(
+    -       private ?RuleCheckerInterface $itemTotalRuleChecker = null
+        )
+    ```
+
+    `Sylius\Component\Core\Provider\TranslationLocaleProvider`
+    ```diff
+        public function __construct(
+    -       private LocaleCollectionProviderInterface|RepositoryInterface $localeRepository,
+    +       private LocaleCollectionProviderInterface $localeRepository,
+            private string $defaultLocaleCode,
+        )
+    ```
+
+    `Sylius\Component\Core\Translation\TranslatableEntityLocaleAssigner`
+    ```diff
+        public function __construct(
+            private LocaleContextInterface $localeContext,
+            private TranslationLocaleProviderInterface $translationLocaleProvider,
+    -       private ?CLIContextCheckerInterface $commandBasedChecker = null,
+    +       private CLIContextCheckerInterface $commandBasedChecker,
+        )
+    ```
+
+1. Changes across the codebase:
+
+    ```diff
+    -   private StateMachineFactoryInterface|StateMachineInterface $stateMachineFactory,
     +   private StateMachineInterface $stateMachine,
+    ```
+   
+    ```diff
+    -   private FactoryInterface|StateMachineInterface $stateMachineFactory,
+    +   private StateMachineInterface $stateMachine,
+    ```
+
+    ```diff
+    -   private RequestStack|SessionInterface $requestStackOrSession,
+    +   private RequestStack $requestStack,
+    ```
+   
+    ```diff
+    + use Symfony\Component\Clock\ClockInterface;
+    -   private DateTimeProviderInterface $calendar
+    +   private ClockInterface $clock
+    ```
+   
+    ```diff
+    -   private ?ProportionalIntegerDistributorInterface $proportionalIntegerDistributor = null,
+    +   private ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
     ```
 
 ### Configuration Changes
@@ -416,6 +982,7 @@ your app as necessary.
 
 #### Sylius State Machine Abstraction
 
+- Removed `sylius_core.state_machine` configuration parameter.
 - Changed `sylius_state_machine_abstraction.default_adapter` from `winzou_state_machine` to `symfony_workflow`.
 
 #### Resource
@@ -623,6 +1190,7 @@ and maintainability of the application and also follows Symfony's best practices
 1. Removed
 
 * `Sylius\Bundle\ApiBundle\EventListener\PostgreSQLDriverExceptionListener`
+* `Sylius\Bundle\ProductBundle\Controller\ProductSlugController`
 * `Sylius\Bundle\CoreBundle\Twig\FilterExtension`
 * `Sylius\Bundle\CoreBundle\DependencyInjection\Compiler\LiipImageFiltersPass`
 * `Sylius\Bundle\GridBundle\Doctrine\PHPCRODM\DataSource`
@@ -726,7 +1294,6 @@ and maintainability of the application and also follows Symfony's best practices
 * `Sylius\Component\Core\Promotion\Updater\Rule\TotalOfItemsFromTaxonRuleUpdater`
 * `Sylius\Bundle\AdminBundle\EmailManager\OrderEmailManager`
 * `Sylius\Bundle\AdminBundle\EmailManager\ShipmentEmailManager`
-* `Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManager`
 * `Sylius\Bundle\ShopBundle\EmailManager\OrderEmailManager`
 * `Sylius\Bundle\ProductBundle\Form\Type\ProductOptionChoiceType`
 * `Sylius\Component\Core\Promotion\Updater\Rule\ProductAwareRuleUpdaterInterface`
@@ -751,6 +1318,8 @@ and maintainability of the application and also follows Symfony's best practices
 | `Sylius\Bundle\PayumBundle\Validator\GatewayFactoryExistsValidator`                | `Sylius\Bundle\PaymentBundle\Validator\Constraints\GatewayFactoryExistsValidator` |
 | `Sylius\Bundle\PayumBundle\Validator\GroupsGenerator\GatewayConfigGroupsGenerator` | `Sylius\Bundle\PaymentBundle\Validator\Constraints\GatewayConfigGroupsGenerator`  |
 | `Sylius\Component\Promotion\Checker\Rule\ItemTotalRuleChecker`                     | `Sylius\Component\Core\Promotion\Checker\Rule\ItemTotalRuleChecker`               | 
+| `Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManager`                        | `Sylius\Bundle\CoreBundle\Mailer\ContactEmailManager`                             |
+| `Sylius\Bundle\AdminBundle\EmailManager\ShipmentEmailManagerInterface`             | `Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface`                   |
 
 #### Services and Aliases
 
@@ -1561,6 +2130,8 @@ the new service IDs.
 
 * The `Filter`, `QueryCollectionExtension`, and `QueryItemExtension` classes in `ApiBundle` have been reorganized into separate sections (`admin`, `shop`, `common`)
   based on their usage context, and grouped by resources.
+
+* The `Message` directory has been renamed to `Command`. Following this change, `MessageHandler` has been renamed to `CommandHandler`, and `MessageDispatcher` has been renamed to `CommandDispatcher`.
 
 * `AdminBundle` now contains base form types for every resource. 
 Use these as an extension point for admin customizations instead the ones from `CoreBundle` or other minor bundles.

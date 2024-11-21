@@ -22,9 +22,15 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ["8.2"]
-                symfony: ["^6.4"]
-                mysql: ["8.4"]
+                include:
+                    -
+                        php: "8.3"
+                        symfony: "~7.2.0-RC1"
+                        mysql: "8.4"
+                    -
+                        php: "8.4"
+                        symfony: "~7.1.0"
+                        mysql: "8.4"
 
         env:
             APP_ENV: test_cached
@@ -37,7 +43,7 @@ jobs:
             -   name: Change minimum-stability to dev
                 run: |
                     composer config minimum-stability dev
-                    composer config prefer-stable false
+                    composer config prefer-stable true
                     
             -   name: Prepare manifest.json files
                 run: |
