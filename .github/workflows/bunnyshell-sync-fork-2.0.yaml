@@ -10,6 +10,9 @@ on:
         required: false
         default: "false"
 
+permissions:
+  contents: write
+
 jobs:
   sync-and-tweak:
     runs-on: ubuntu-latest
