@@ -403,7 +403,8 @@ your app as necessary.
 
    `Sylius\Bundle\AdminBundle\Action\ResendOrderConfirmationEmailAction`
     ```diff
-        use Symfony\Component\Routing\RouterInterface;
+    use Symfony\Component\Routing\RouterInterface;
+
         public function __construct(
             private OrderRepositoryInterface $orderRepository,
     -       private OrderEmailManagerInterface|ResendOrderConfirmationEmailDispatcherInterface $orderEmailManager,
@@ -418,8 +419,8 @@ your app as necessary.
 
     `Sylius\Bundle\AdminBundle\Action\ResendShipmentConfirmationEmailAction`
     ```diff
-        use Sylius\Bundle\AdminBundle\EmailManager\ShipmentEmailManagerInterface;
-        use Sylius\Bundle\CoreBundle\MessageDispatcher\ResendShipmentConfirmationEmailDispatcherInterface;
+    use Sylius\Bundle\AdminBundle\EmailManager\ShipmentEmailManagerInterface;
+    use Sylius\Bundle\CoreBundle\MessageDispatcher\ResendShipmentConfirmationEmailDispatcherInterface;
     
         public function __construct(
             private ShipmentRepositoryInterface $shipmentRepository,
@@ -433,7 +434,7 @@ your app as necessary.
 
     `Sylius\Bundle\AdminBundle\Controller\ImpersonateUserController`
     ```diff
-        use Symfony\Component\Routing\RouterInterface;
+    use Symfony\Component\Routing\RouterInterface;
     
         public function __construct(
             private UserImpersonatorInterface $impersonator,
@@ -447,7 +448,7 @@ your app as necessary.
 
     `Sylius\Bundle\AdminBundle\EventListener\ShipmentShipListener`
     ```diff
-        use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface;
+    use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface;
     
         public function __construct(
     -       private DeprecatedShipmentEmailManagerInterface|ShipmentEmailManagerInterface $shipmentEmailManager
@@ -457,7 +458,7 @@ your app as necessary.
 
    `Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\SelectAttributeChoicesCollectionType`
     ```diff
-        use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
+    use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
 
         public function __construct(
     -       ?TranslationLocaleProviderInterface $localeProvider = null,
@@ -466,8 +467,8 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\CatalogPromotion\Processor\CatalogPromotionRemovalProcessor`
     ```diff
-        use Sylius\Bundle\CoreBundle\CatalogPromotion\Announcer\CatalogPromotionRemovalAnnouncerInterface;
-        use Symfony\Component\Messenger\MessageBusInterface;
+    use Sylius\Bundle\CoreBundle\CatalogPromotion\Announcer\CatalogPromotionRemovalAnnouncerInterface;
+    use Symfony\Component\Messenger\MessageBusInterface;
     
         public function __construct(
             private CatalogPromotionRepositoryInterface $catalogPromotionRepository,
@@ -479,7 +480,7 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory`
     ```diff
-        use Symfony\Component\Config\FileLocatorInterface;
+    use Symfony\Component\Config\FileLocatorInterface;
     
         public function __construct(
             private FactoryInterface $productFactory,
@@ -513,7 +514,7 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\Fixture\Factory\PromotionExampleFactory`
     ```diff
-        use Sylius\Component\Resource\Repository\RepositoryInterface;
+    use Sylius\Component\Resource\Repository\RepositoryInterface;
     
         public function __construct(
             private FactoryInterface $promotionFactory,
@@ -529,8 +530,8 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\Installer\Provider\DatabaseSetupCommandsProvider`
     ```diff
-        use Doctrine\Bundle\DoctrineBundle\Registry;
-        use Doctrine\ORM\EntityManagerInterface;
+    use Doctrine\Bundle\DoctrineBundle\Registry;
+    use Doctrine\ORM\EntityManagerInterface;
     
         public function __construct(
     -       Registry $doctrineRegistry,
@@ -540,7 +541,7 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\Installer\Setup\LocaleSetup`
     ```diff
-        use Symfony\Component\Filesystem\Filesystem;
+    use Symfony\Component\Filesystem\Filesystem;
     
         public function __construct(
             private RepositoryInterface $localeRepository,
@@ -555,7 +556,7 @@ your app as necessary.
 
     `Sylius\Bundle\CoreBundle\Validator\Constraints\HasEnabledEntityValidator`
     ```diff
-        use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+    use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
     
         public function __construct(
             private ManagerRegistry $registry,
@@ -566,8 +567,8 @@ your app as necessary.
 
     `Sylius\Bundle\ShopBundle\EventListener\OrderCompleteListener`
     ```diff
-        use Sylius\Bundle\CoreBundle\Mailer\OrderEmailManagerInterface;
-        use Sylius\Bundle\ShopBundle\EmailManager\OrderEmailManagerInterface as DeprecatedOrderEmailManagerInterface;
+    use Sylius\Bundle\CoreBundle\Mailer\OrderEmailManagerInterface;
+    use Sylius\Bundle\ShopBundle\EmailManager\OrderEmailManagerInterface as DeprecatedOrderEmailManagerInterface;
     
         public function __construct(
     -       private DeprecatedOrderEmailManagerInterface|OrderEmailManagerInterface $orderEmailManager
@@ -577,8 +578,8 @@ your app as necessary.
 
     `Sylius\Bundle\ShopBundle\Controller\ContactController`
     ```diff
-        use Sylius\Bundle\CoreBundle\Mailer\ContactEmailManagerInterface;
-        use Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManagerInterface as DeprecatedContactEmailManagerInterface;
+    use Sylius\Bundle\CoreBundle\Mailer\ContactEmailManagerInterface;
+    use Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManagerInterface as DeprecatedContactEmailManagerInterface;
     
         public function __construct(
             private RouterInterface $router,
@@ -594,8 +595,8 @@ your app as necessary.
 
     `Sylius\Component\Addressing\Matcher\ZoneMatcher`
     ```diff
-        use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
-        use Sylius\Component\Resource\Repository\RepositoryInterface;
+    use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
+    use Sylius\Component\Resource\Repository\RepositoryInterface;
     
         public function __construct(
     -       private RepositoryInterface|ZoneRepositoryInterface $zoneRepository
@@ -605,9 +606,9 @@ your app as necessary.
 
     `Sylius\Component\Core\Updater\UnpaidOrdersStateUpdater`
     ```diff
-        use Doctrine\Persistence\ObjectManager;
-        use SM\Factory\Factory;
-        use Sylius\Abstraction\StateMachine\StateMachineInterface;
+    use Doctrine\Persistence\ObjectManager;
+    use SM\Factory\Factory;
+    use Sylius\Abstraction\StateMachine\StateMachineInterface;
     
         public function __construct(
             private OrderRepositoryInterface $orderRepository,
@@ -624,7 +625,7 @@ your app as necessary.
 
     `Sylius\Component\Core\Calculator\ProductVariantPriceCalculator`
     ```diff
-        use Sylius\Component\Core\Checker\ProductVariantLowestPriceDisplayCheckerInterface;
+    use Sylius\Component\Core\Checker\ProductVariantLowestPriceDisplayCheckerInterface;
     
         public function __construct(
     -       private ?ProductVariantLowestPriceDisplayCheckerInterface $productVariantLowestPriceDisplayChecker = null,
@@ -634,7 +635,7 @@ your app as necessary.
 
     `Sylius\Component\Core\Taxation\Applicator\OrderItemsTaxesApplicator`
     ```diff
-        use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
+    use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
     
         public function __construct(
             private CalculatorInterface $calculator,
@@ -648,7 +649,7 @@ your app as necessary.
 
     `Sylius\Component\Core\Taxation\Applicator\OrderItemUnitsTaxesApplicator`
     ```diff
-        use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
+    use Sylius\Component\Core\Distributor\ProportionalIntegerDistributorInterface;
     
         public function __construct(
             CalculatorInterface $calculator,

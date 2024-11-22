@@ -16,7 +16,7 @@ layout:
 
 <div data-full-width="true">
 
-<figure><img src=".gitbook/assets/sylius-docs-heading.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://sylius.com/assets/github-readme.png?20" alt=""><figcaption></figcaption></figure>
 
 </div>
 

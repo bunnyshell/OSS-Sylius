@@ -245,20 +245,29 @@ All the `setter` methods have been removed from the commands above and also ther
     - All translation resources are no longer exposed, as each one is now integrated into its main resource.
 
 1. **ChannelPriceHistoryConfig**
-    - The resource configuration has been removed, as it is now managed by the `Channel` resource. The endpoints `GET /api/v2/admin/channel-price-history-configs/{id}` and `PUT /api/v2/admin/channel-price-history-configs/{id}` are no longer available.
+    - The resource configuration is now managed by the `Channel` resource. 
+    - Removed endpoints:
+      - `GET /api/v2/admin/channel-price-history-configs/{id}`
+      - `PUT /api/v2/admin/channel-price-history-configs/{id}`
 
 1. **ShopBillingData**
-    - The resource configuration has been removed, as it is now managed by the `Channel` resource. The endpoints `GET /api/v2/admin/shop-billing-datas/{id}` and `GET /api/v2/admin/channels/{code}/shop-billing-data` are no longer available.
+    - The resource configuration is now managed by the `Channel` resource.
+    - Removed endpoints:
+      - `GET /api/v2/admin/shop-billing-datas/{id}`
+      - `GET /api/v2/admin/channels/{code}/shop-billing-data`
 
 1. **ZoneMember**
-    - The resource configuration has been removed, as it is now managed by the `Zone` resource. The endpoints `GET /api/v2/admin/zone-members/{id}` and `GET /api/v2/admin/zones/{code}/members` are no longer available.
+    - The resource configuration is now managed by the `Zone` resource. 
+    - Removed endpoints:
+      - `GET /api/v2/admin/zone-members/{id}`
+      - `GET /api/v2/admin/zones/{code}/members`
 
 1. **ProductOptionValueTranslation**
     - A new resource configuration has been added for the `ProductOptionValueTranslation` resource it is now possible to manage translations for product option values.
 
 ## Request Body and Response Updates
 
-### Request Body Changes
+### Request Payload Changes
 
 #### ChannelPriceHistoryConfig
 Management for `ChannelPriceHistoryConfig` has been moved to the `Channel` resource. The `PUT` request for `Channel` now includes `channelPriceHistoryConfig` fields:
@@ -307,9 +316,9 @@ Management for `ChannelPriceHistoryConfig` has been moved to the `Channel` resou
 
 ### Response Changes
 
-#### ChannelPriceHistoryConfig
-**Updated Channels `shop` `GET` Responses:**
+#### Channel
 ```diff
+    -   "shopBillingData": "\/api\/v2\/admin\/shop-billing-datas\/{id}",
     +   "shopBillingData": {
     +       "@type": "ShopBillingData",
     +       "company": "Sylius Inc.",
@@ -319,14 +328,20 @@ Management for `ChannelPriceHistoryConfig` has been moved to the `Channel` resou
     +       "city": "eCommerce City",
     +       "postcode": "12345"
     +   }
+    -  "channelPriceHistoryConfig": "/api/v2/admin/channel-price-history-configs/{id}"
+    +  "channelPriceHistoryConfig": {
+    +      "lowestPriceForDiscountedProductsCheckingPeriod": 30,
+    +      "lowestPriceForDiscountedProductsVisible": true,
+    +      "taxonsExcludedFromShowingLowestPrice": ["clearance", "seasonal"]
+    +  }
 ```
 
 #### Order
-- `Id` has been removed from `shop` `GET` responses.
-- `Order number` has been removed from orders in `shop` item `GET`.
-- `Channel` has been added to orders in `shop` item `GET`.
-- `Customer email` is now exposed in the order `GET` response for `shop`.
-- `State` has been added to the order `GET` response for `shop`.
+- `id` has been removed from `shop` `GET` responses.
+- `orderNumber` has been removed from orders in `shop` item `GET`.
+- `channel` has been added to orders in `shop` item `GET`.
+- `customerEmail` is now exposed in the order `GET` response for `shop`.
+- `state` has been added to the order `GET` response for `shop`.
 - `customerIp` has been added to the admin serialization configuration.
 
 ```diff
@@ -345,7 +360,7 @@ Management for `ChannelPriceHistoryConfig` has been moved to the `Channel` resou
 The `sylius:admin:order_item_unit:show` serialization group has been removed as endpoints for `OrderItemUnit` are no longer exposed.
 
 #### Translations
-`Id` has been removed from serialization for all translation resources.
+`id` has been removed from serialization for all translation resources.
 
 **Example: `ShippingMethod` Get Response:**
 ```diff
@@ -361,7 +376,7 @@ The `sylius:admin:order_item_unit:show` serialization group has been removed as 
 ```
 
 #### ProductAssociationType
-`Id` is no longer exposed on the `shop` `GET` endpoint.
+`id` is no longer exposed on the `shop` `GET` endpoint.
 
 ```diff
     {
@@ -392,7 +407,7 @@ The `sylius:admin:order_item_unit:show` serialization group has been removed as 
 ```
 
 #### ProductOption
-`Id` has been removed from serialization.
+`id` has been removed from serialization.
 
 ```diff
     {
@@ -417,7 +432,7 @@ The `sylius:admin:order_item_unit:show` serialization group has been removed as 
 ```
 
 #### ProductOptionValue
-`Id` has been removed from serialization.
+`id` has been removed from serialization.
 
 ```diff
     {
@@ -440,7 +455,7 @@ The `sylius:admin:order_item_unit:show` serialization group has been removed as 
 The `sylius:admin:province:index` serialization group has been added for the `index` response.
 
 #### ShopBillingData
-`Id` has been removed from serialization, and the `sylius:admin:shop_billing_data:show` serialization group has been removed. `Company`, `taxId`, `countryCode`, `street`, `city`, and `postcode` are now exposed on `channels` `admin` index and show views.
+`id` has been removed from serialization, and the `sylius:admin:shop_billing_data:show` serialization group has been removed. `Company`, `taxId`, `countryCode`, `street`, `city`, and `postcode` are now exposed on `channels` `admin` index and show views.
 
 **Example: Channel Get Response**
 ```diff
@@ -457,7 +472,7 @@ The `sylius:admin:province:index` serialization group has been added for the `in
 ```
 
 #### ZoneMember
-`Id` and `belongsTo` have been removed from serialization, and `code` has been added to the response for `zones` admin index and show. The `ZoneMember` get endpoint has been removed and is now accessible only through the `Zone`.
+`id` and `belongsTo` have been removed from serialization, and `code` has been added to the response for `zones` admin index and show. The `ZoneMember` get endpoint has been removed and is now accessible only through the `Zone`.
 
 **Example: Zone Get Response:**
 ```diff
