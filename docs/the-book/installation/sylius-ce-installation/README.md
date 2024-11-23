@@ -78,7 +78,7 @@ DATABASE_URL=mysql://<username>:<password>@<host>/<your_database_name>_%kernel.e
 {% tab title="MariaDB" %}
 {% code title=".env.local" overflow="wrap" %}
 ```sh
-DATABASE_URL=mariadb://<username>:<password>@<host>/<your_database_name>_%kernel.environment%?serverVersion=<your_db_version>&charset=utf8
+DATABASE_URL=mysql://<username>:<password>@<host>/<your_database_name>_%kernel.environment%?serverVersion=mariadb-<your_db_version>&charset=utf8
 ```
 {% endcode %}
 {% endtab %}
