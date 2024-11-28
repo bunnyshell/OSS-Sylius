@@ -315,7 +315,7 @@ your app as necessary.
     use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 
         public function __construct(
-    -       private private FormatMoneyHelperInterface|MoneyFormatterInterface $helper,
+    -       private FormatMoneyHelperInterface|MoneyFormatterInterface $helper,
     +       private MoneyFormatterInterface $moneyFormatter,
         )
     ```
