@@ -15,9 +15,9 @@ namespace Sylius\Bundle\ApiBundle\Attribute;
 
 /** @experimental */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class PaymentRequestHashAware
+final class PaymentRequestActionAware
 {
-    public const DEFAULT_ARGUMENT_NAME = 'hash';
+    public const DEFAULT_ARGUMENT_NAME = 'action';
 
     public function __construct(public string $constructorArgumentName = self::DEFAULT_ARGUMENT_NAME)
     {

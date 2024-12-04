@@ -60,7 +60,7 @@ final class PaymentRequestsTest extends JsonApiTestCase
      *
      * @dataProvider createPaymentRequestProvider
      *
-     * @param array<string> $fixturesPaths
+     * @param string[] $fixturesPaths
      *
      * @throws \JsonException
      */
@@ -79,7 +79,6 @@ final class PaymentRequestsTest extends JsonApiTestCase
             content: json_encode([
                 'paymentId' => $payment->getId(),
                 'paymentMethodCode' => $payment->getMethod()->getCode(),
-                'action' => 'capture',
                 'payload' => [
                     'target_path' => 'https://myshop.tld/target-path',
                     'after_path' => 'https://myshop.tld/after-path',
@@ -116,7 +115,6 @@ final class PaymentRequestsTest extends JsonApiTestCase
             content: json_encode([
                 'paymentId' => $payment->getId(),
                 'paymentMethodCode' => $payment->getMethod()->getCode(),
-                'action' => 'capture',
                 'payload' => [
                     'target_path' => 'https://myshop.tld/target-path',
                     'after_path' => 'https://myshop.tld/after-path',
@@ -260,7 +258,7 @@ final class PaymentRequestsTest extends JsonApiTestCase
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function createPaymentRequestProvider(): iterable
+    public static function createPaymentRequestProvider(): iterable
     {
         yield 'Payment request' => [
             [
