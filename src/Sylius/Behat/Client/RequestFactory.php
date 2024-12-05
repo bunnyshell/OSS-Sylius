@@ -155,6 +155,7 @@ final class RequestFactory implements RequestFactoryInterface
             sprintf('%s/%s/%s/%s/%s', $this->apiUrlPrefix, $section, $resource, $id, $action),
             $type,
         );
+        $builder->withHeader('HTTP_ACCEPT', self::LINKED_DATA_JSON_CONTENT_TYPE);
         $builder->withHeader('CONTENT_TYPE', $this->contentTypeGuide->guide($type));
 
         return $builder->build();

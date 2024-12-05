@@ -1,5 +1,58 @@
 # CHANGELOG FOR `2.0.X`
 
+## v2.0.1 (2024-12-04)
+
+#### Details
+
+- [#17462](https://github.com/Sylius/Sylius/issues/17462) Fix mobile product option translations form ([@bartek-sek](https://github.com/bartek-sek))
+- [#17463](https://github.com/Sylius/Sylius/issues/17463) Fix mobile tax categories name ([@bartek-sek](https://github.com/bartek-sek))
+- [#17469](https://github.com/Sylius/Sylius/issues/17469) SYL-4130: UI fixes ([@bartek-sek](https://github.com/bartek-sek))
+- [#17461](https://github.com/Sylius/Sylius/issues/17461) Fix mobile pagination ([@bartek-sek](https://github.com/bartek-sek))
+- [#17460](https://github.com/Sylius/Sylius/issues/17460) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17472](https://github.com/Sylius/Sylius/issues/17472) [Docs] Disallow indexing old-docs in search engines ([@CoderMaggie](https://github.com/CoderMaggie))
+- [#17471](https://github.com/Sylius/Sylius/issues/17471) Fix channel collector's name to match the tag's id ([@GSadee](https://github.com/GSadee))
+- [#17484](https://github.com/Sylius/Sylius/issues/17484) Add missing info about removed parameter in 2.0 ([@TheMilek](https://github.com/TheMilek))
+- [#17480](https://github.com/Sylius/Sylius/issues/17480) Add missing constructor changes info to upgrade 2.0 file ([@TheMilek](https://github.com/TheMilek))
+- [#17487](https://github.com/Sylius/Sylius/issues/17487) [BUG] Fix sass loader compilation on path containing dot character ([@lruozzi9](https://github.com/lruozzi9))
+- [#17489](https://github.com/Sylius/Sylius/issues/17489) Replace all images in demo by webp ([@damonsson](https://github.com/damonsson))
+- [#17493](https://github.com/Sylius/Sylius/issues/17493) [CI] Add PHP 8.4 and SF 7.2 to unstable build ([@GSadee](https://github.com/GSadee))
+- [#17486](https://github.com/Sylius/Sylius/issues/17486) [Twig][Component] Replace private with protected constructor parameters ([@Wojdylak](https://github.com/Wojdylak))
+- [#17494](https://github.com/Sylius/Sylius/issues/17494) [Docs v1] Organization docs ([@CoderMaggie](https://github.com/CoderMaggie))
+- [#17499](https://github.com/Sylius/Sylius/issues/17499) Refine Upgrade Files content ([@Rafikooo](https://github.com/Rafikooo))
+- [#17497](https://github.com/Sylius/Sylius/issues/17497) [CS][DX] Refactor
+- [#17501](https://github.com/Sylius/Sylius/issues/17501) Update README.md ([@kulczy](https://github.com/kulczy))
+- [#17500](https://github.com/Sylius/Sylius/issues/17500) Update README.md ([@kulczy](https://github.com/kulczy))
+- [#17482](https://github.com/Sylius/Sylius/issues/17482) [Shop][2.0] Added the ability to render the accordion component that’s expanded by default ([@gitrequests](https://github.com/gitrequests))
+- [#17502](https://github.com/Sylius/Sylius/issues/17502) Update breadcrumbs.html ([@kulczy](https://github.com/kulczy))
+- [#17504](https://github.com/Sylius/Sylius/issues/17504) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17496](https://github.com/Sylius/Sylius/issues/17496) performance, accessibility, best practices and seo improvements ([@damonsson](https://github.com/damonsson))
+- [#17509](https://github.com/Sylius/Sylius/issues/17509) revert meta description content nad translation ([@damonsson](https://github.com/damonsson))
+- [#17510](https://github.com/Sylius/Sylius/issues/17510) fix accessibility ([@damonsson](https://github.com/damonsson))
+- [#17514](https://github.com/Sylius/Sylius/issues/17514) [Admin][Action] use dynamic crud action route name instead of static prefixed paths ([@jeromeengeln](https://github.com/jeromeengeln))
+- [#17516](https://github.com/Sylius/Sylius/issues/17516) removal of double ‘private’ from upgrade-2.0.md ([@christopherhero](https://github.com/christopherhero))
+- [#17515](https://github.com/Sylius/Sylius/issues/17515) removing the double "private" in UPGRADE-1.14.md ([@christopherhero](https://github.com/christopherhero))
+- [#17523](https://github.com/Sylius/Sylius/issues/17523) images optimiziations ([@damonsson](https://github.com/damonsson))
+- [#17525](https://github.com/Sylius/Sylius/issues/17525) [Maintenance] Remove unnecessary definition of interface ([@Wojdylak](https://github.com/Wojdylak))
+- [#17524](https://github.com/Sylius/Sylius/issues/17524) [Maintenance] Change used aliases to id ([@Wojdylak](https://github.com/Wojdylak))
+- [#17526](https://github.com/Sylius/Sylius/issues/17526) Update CODEOWNERS ([@damonsson](https://github.com/damonsson))
+- [#17522](https://github.com/Sylius/Sylius/issues/17522) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17485](https://github.com/Sylius/Sylius/issues/17485) [shop][2.0] fix: prevent loading when go back on product page after redirection ([@maxperei](https://github.com/maxperei))
+- [#17527](https://github.com/Sylius/Sylius/issues/17527) Allow to add extra filters on promotion actions ([@lruozzi9](https://github.com/lruozzi9))
+- [#17518](https://github.com/Sylius/Sylius/issues/17518) [UI] Change product images layout ([@kulczy](https://github.com/kulczy))
+- [#17495](https://github.com/Sylius/Sylius/issues/17495) [Admin] - admin panel layout modifications - CRUD removed text-nowrap class ([@ars-creo](https://github.com/ars-creo))
+- [#17507](https://github.com/Sylius/Sylius/issues/17507) fix: json_decode check always pass ([@sonbui00](https://github.com/sonbui00))
+- [#17488](https://github.com/Sylius/Sylius/issues/17488) [PaymentRequest][Fix] Allow to set null action during an API call ([@Prometee](https://github.com/Prometee))
+- [#17532](https://github.com/Sylius/Sylius/issues/17532) Update avatars in README ([@CoderMaggie](https://github.com/CoderMaggie))
+- [#17533](https://github.com/Sylius/Sylius/issues/17533) Tag attribute case mismatch on sylius php attributes ([@ehibes](https://github.com/ehibes))
+- [#17537](https://github.com/Sylius/Sylius/issues/17537) [CS][DX] Refactor
+- [#17519](https://github.com/Sylius/Sylius/issues/17519) SYL-4137: Remove language flags ([@bartek-sek](https://github.com/bartek-sek))
+- [#17539](https://github.com/Sylius/Sylius/issues/17539) Move note in the UPGRADE file to proper patch section ([@GSadee](https://github.com/GSadee))
+- [#17542](https://github.com/Sylius/Sylius/issues/17542) Add missing logo used in e-mails ([@kulczy](https://github.com/kulczy))
+- [#17541](https://github.com/Sylius/Sylius/issues/17541) SYL-4139: Missing translations ([@bartek-sek](https://github.com/bartek-sek))
+- [#17540](https://github.com/Sylius/Sylius/issues/17540) Add a logo used in emails ([@kulczy](https://github.com/kulczy))
+- [#17543](https://github.com/Sylius/Sylius/issues/17543) [Behat] Add http accept header to custom item action ([@Wojdylak](https://github.com/Wojdylak))
+- [#17528](https://github.com/Sylius/Sylius/issues/17528) Fixing docker images for running local test suites ([@dragoonis](https://github.com/dragoonis))
+
 ## v2.0.0 (2024-11-12)
 
 #### Details

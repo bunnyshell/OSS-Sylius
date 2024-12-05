@@ -1,3 +1,11 @@
+# UPGRADE FROM `2.0.0` TO `2.0.1`
+
+### Frontend
+
+1. Flags have been removed from languages - it resolves all ambiguity and ensures a consistent and straightforward language 
+   selection experience. This approach reduces maintenance complexity and eliminates the risk of incorrect 
+   or misleading flag assignments.
+
 # UPGRADE FROM `1.14` TO `2.0`
 
 ## To start off
