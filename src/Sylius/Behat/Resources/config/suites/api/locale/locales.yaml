@@ -20,6 +20,7 @@ default:
                 - sylius.behat.context.api.shop.channel
                 - sylius.behat.context.api.shop.locale
                 - sylius.behat.context.api.shop.product
-                
+
             filters:
                 tags: "@locales&&@api"
+            javascript: false

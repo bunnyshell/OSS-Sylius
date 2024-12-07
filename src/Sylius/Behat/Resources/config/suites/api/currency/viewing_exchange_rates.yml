@@ -22,3 +22,4 @@ default:
 
             filters:
                 tags: "@viewing_exchange_rates&&@api"
+            javascript: false

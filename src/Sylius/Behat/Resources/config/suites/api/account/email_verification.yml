@@ -22,3 +22,4 @@ default:
 
             filters:
                 tags: "@email_verification&&@api"
+            javascript: false

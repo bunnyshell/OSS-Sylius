@@ -30,3 +30,4 @@ default:
 
             filters:
                 tags: "@removing_catalog_promotions&&@api"
+            javascript: false

@@ -36,3 +36,4 @@ default:
 
             filters:
                 tags: "@viewing_shipping_methods&&@api"
+            javascript: false

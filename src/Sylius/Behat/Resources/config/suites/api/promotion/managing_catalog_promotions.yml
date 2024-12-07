@@ -33,3 +33,4 @@ default:
 
             filters:
                 tags: "@managing_catalog_promotions&&@api"
+            javascript: false

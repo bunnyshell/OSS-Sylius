@@ -26,7 +26,7 @@ default:
                 - sylius.behat.context.transform.product
                 - sylius.behat.context.transform.shipping_method
                 - sylius.behat.context.transform.shared_storage
-                    
+
                 - sylius.behat.context.api.admin.save
                 - sylius.behat.context.api.admin.response
                 - sylius.behat.context.api.admin.managing_payment_methods
@@ -34,3 +34,4 @@ default:
 
             filters:
                 tags: "@managing_payment_methods&&@api"
+            javascript: false

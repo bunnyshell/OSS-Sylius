@@ -39,3 +39,4 @@ default:
                 - sylius.behat.context.api.shop.checkout
             filters:
                 tags: "@applying_promotion_rules&&@api"
+            javascript: false

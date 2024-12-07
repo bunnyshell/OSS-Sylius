@@ -35,3 +35,4 @@ default:
 
             filters:
                 tags: "@applying_catalog_promotions&&@api"
+            javascript: false

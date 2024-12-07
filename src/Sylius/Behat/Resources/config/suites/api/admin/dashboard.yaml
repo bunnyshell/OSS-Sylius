@@ -7,7 +7,7 @@ default:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - sylius.behat.context.hook.calendar
-                    
+
                 - sylius.behat.context.transform.admin
                 - sylius.behat.context.transform.shared_storage
                 - sylius.behat.context.transform.user
@@ -37,3 +37,4 @@ default:
 
             filters:
                 tags: "@admin_dashboard&&@api"
+            javascript: false

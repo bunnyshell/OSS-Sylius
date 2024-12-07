@@ -32,3 +32,4 @@ default:
 
             filters:
                 tags: "@checkout_inventory&&@api"
+            javascript: false

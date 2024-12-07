@@ -20,3 +20,4 @@ default:
 
             filters:
                 tags: "@currencies&&@api"
+            javascript: false

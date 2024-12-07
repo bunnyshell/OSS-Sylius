@@ -39,3 +39,4 @@ default:
 
             filters:
                 tags: "@receiving_discount&&@api"
+            javascript: false

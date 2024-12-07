@@ -23,3 +23,4 @@ default:
 
             filters:
                 tags: "@managing_users&&@api"
+            javascript: false

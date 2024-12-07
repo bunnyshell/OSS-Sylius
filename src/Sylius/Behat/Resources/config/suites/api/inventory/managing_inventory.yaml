@@ -33,3 +33,4 @@ default:
 
             filters:
                 tags: "@managing_inventory&&@api"
+            javascript: false

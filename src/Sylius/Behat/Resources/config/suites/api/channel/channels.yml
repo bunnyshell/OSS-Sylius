@@ -17,3 +17,4 @@ default:
 
             filters:
                 tags: "@channels&&@api"
+            javascript: false

@@ -42,3 +42,4 @@ default:
 
             filters:
                 tags: "@managing_promotions&&@api"
+            javascript: false

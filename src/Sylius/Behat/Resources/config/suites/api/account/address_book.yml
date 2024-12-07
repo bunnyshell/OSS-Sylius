@@ -36,3 +36,4 @@ default:
 
             filters:
                 tags: "@address_book&&@api"
+            javascript: false

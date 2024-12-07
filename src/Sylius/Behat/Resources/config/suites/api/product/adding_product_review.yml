@@ -25,3 +25,4 @@ default:
 
             filters:
                 tags: "@adding_product_review&&@api"
+            javascript: false

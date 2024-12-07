@@ -31,3 +31,4 @@ default:
 
             filters:
                 tags: "@accessing_cart&&@api"
+            javascript: false

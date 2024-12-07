@@ -19,3 +19,4 @@ default:
 
             filters:
                 tags: "@requesting_contact&&@api"
+            javascript: false

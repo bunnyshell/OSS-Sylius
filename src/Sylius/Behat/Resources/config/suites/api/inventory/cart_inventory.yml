@@ -21,3 +21,4 @@ default:
 
             filters:
                 tags: "@cart_inventory&&@api"
+            javascript: false

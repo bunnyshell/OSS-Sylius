@@ -35,3 +35,4 @@ default:
 
             filters:
                 tags: "@order_history&&@api"
+            javascript: false

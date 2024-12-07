@@ -42,3 +42,4 @@ default:
 
             filters:
                 tags: "@modifying_placed_order_address&&@api"
+            javascript: false

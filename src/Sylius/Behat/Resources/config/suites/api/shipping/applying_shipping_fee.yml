@@ -43,3 +43,4 @@ default:
 
             filters:
                 tags: "@applying_shipping_fee&&@api"
+            javascript: false

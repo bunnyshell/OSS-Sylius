@@ -37,3 +37,4 @@ default:
 
             filters:
                 tags: "@applying_promotion_coupon&&@api"
+            javascript: false

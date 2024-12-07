@@ -39,3 +39,4 @@ default:
 
             filters:
                 tags: "@applying_taxes&&@api"
+            javascript: false
