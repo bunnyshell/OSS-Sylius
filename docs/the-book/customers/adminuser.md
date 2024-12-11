@@ -36,11 +36,7 @@ In **Sylius** by default you have got the administration panel routes (`/admin/*
 
 Only the logged-in **AdminUsers** are eligible to enter these routes.
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure></div>
 
 ## Access Control via Administrator Roles (ACL/RBAC)
 
@@ -200,11 +196,7 @@ It is possible to choose a channel to which an Administrator has access. It is d
 
 Having chosen a channel on an Administrator, their access will get restricted within the Sales section of the main menu in the Admin Panel. Thus they will see only orders, payments, shipments, return requests, invoices and credit memos from the channel they have access to.
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure></div>
 
 ### Additional Admin User Fixtures
 

@@ -1,9 +1,5 @@
 ---
-coverY: 0
 layout:
-  cover:
-    visible: true
-    size: full
   title:
     visible: true
   description:
@@ -18,11 +14,7 @@ layout:
 
 # ➕ Customer Pools
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure></div>
 
 Customer Pool is a collection of Customers that is assigned to a specific channel. Thanks to this concept, if you have two channels, each of them has a separate customer pool, then customers that have accounts in channel A, and have not registered in channel B, will not be able to log in to channel B with credentials they have specified in channel A (which is the behavior happening in Sylius CE). This feature allows you to sell via multiple channels, creating an illusion of shopping in completely different stores, while you still have one administration panel.
 
@@ -104,8 +96,4 @@ To assign a Customer Pool to a Channel programmatically use this simple trick:
 $channel->setCustomerPool($customerPool);
 ```
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure></div>

@@ -14,20 +14,16 @@ layout:
 
 # 📖 Sylius 2.0 Documentation
 
-<div data-full-width="true">
+<div data-full-width="false"><figure><img src="https://sylius.com/assets/github-readme.png?20" alt=""><figcaption></figcaption></figure></div>
 
-<figure><img src="https://sylius.com/assets/github-readme.png?20" alt=""><figcaption></figcaption></figure>
+**Sylius** is an open-source e-commerce platform with a modular architecture, providing a robust foundation for online stores. It focuses on delivering a dynamic developer experience and allows extensive customization to meet unique business needs.
 
-</div>
-
-**Sylius** is an open-source e-commerce platform with a modular architecture, providing a robust foundation for online stores. It focuses on delivering a dynamic developer experience and allows extensive customization to meet unique business needs.&#x20;
-
-Key features include product and customer management, versatile shopping cart systems, flexible tax categories, and promotional tools. Sylius supports seamless integration with third-party services and customizable workflows.&#x20;
+Key features include product and customer management, versatile shopping cart systems, flexible tax categories, and promotional tools. Sylius supports seamless integration with third-party services and customizable workflows.
 
 Whether you’re new to Symfony-based frameworks or an experienced developer, Sylius is designed to grow with you, facilitating your journey from basic to advanced e-commerce development.
 
 {% hint style="info" %}
-This documentation assumes you have a working knowledge of the Symfony Framework. If you’re unfamiliar with Symfony, please start by reading the [Quick Tour](https://symfony.com/doc/current/quick\_tour) from the Symfony documentation.
+This documentation assumes you have a working knowledge of the Symfony Framework. If you’re unfamiliar with Symfony, please start by reading the [Quick Tour](https://symfony.com/doc/current/quick_tour) from the Symfony documentation.
 {% endhint %}
 
 ***
@@ -81,13 +77,13 @@ The Developer’s guide to leveraging the flexibility of Sylius. Here you will f
 * [Support](the-book/support.md)
 * [Contributing](the-book/contributing/)
 
-&#x20;                                                             [![Blackfire](https://old-docs.sylius.com/en/1.13/\_static/img/blackfire.png)](https://blackfire.io/docs/introduction?utm\_source=sylius\&utm\_medium=docs\&utm\_campaign=profiler)
+[![Blackfire](https://old-docs.sylius.com/en/1.13/_static/img/blackfire.png)](https://blackfire.io/docs/introduction?utm_source=sylius\&utm_medium=docs\&utm_campaign=profiler)
 
 ### Sylius Plus
 
 <figure><img src=".gitbook/assets/sylius-docs-banner.png" alt=""><figcaption></figcaption></figure>
 
-[Sylius Plus](https://sylius.com/plus/?utm\_source=docs\&utm\_medium=cta\&utm\_campaign=plus), a licensed edition of Sylius, gives you all the power of Open Source and much more. It comes with enterprise-grade features and technical support from its creators. As a state-of-the-art eCommerce platform, it reduces risks and increases ROI.
+[Sylius Plus](https://sylius.com/plus/?utm_source=docs\&utm_medium=cta\&utm_campaign=plus), a licensed edition of Sylius, gives you all the power of Open Source and much more. It comes with enterprise-grade features and technical support from its creators. As a state-of-the-art eCommerce platform, it reduces risks and increases ROI.
 
 \
 Documentation sections referring to Sylius Plus features are:

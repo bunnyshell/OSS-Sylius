@@ -43,7 +43,7 @@ To make the system more convenient for the administrator, there is just one, sha
 {% hint style="info" %}
 In the dev environment, you can easily check what channel you are currently on in the Symfony debug toolbar.\
 \
-![](../../.gitbook/assets/channel\_toolbar.webp)
+![](../../.gitbook/assets/channel_toolbar.webp)
 {% endhint %}
 
 ### Different menu root
@@ -84,11 +84,7 @@ For [Invoicing](https://docs.sylius.com/en/1.13/book/orders/invoices.html) and [
 
 <figure><img src="../../.gitbook/assets/shop_billing_data.png" alt=""><figcaption></figcaption></figure>
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-start (1).png" alt=""><figcaption></figcaption></figure></div>
 
 #### Business Units
 
@@ -96,18 +92,8 @@ Sylius Plus is supplied with an enhanced version of Shop Billing Data from Syliu
 
 <figure><img src="../../.gitbook/assets/business_units_index.png" alt=""><figcaption></figcaption></figure>
 
-<div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/business_units_edit.png" alt=""><figcaption></figcaption></figure></div>
 
-<figure><img src="../../.gitbook/assets/business_units_edit.png" alt=""><figcaption></figcaption></figure>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/channel_business_unit.png" alt=""><figcaption></figcaption></figure></div>
 
- 
-
-<figure><img src="../../.gitbook/assets/channel_business_unit.png" alt=""><figcaption></figcaption></figure>
-
-</div>
-
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure></div>

@@ -173,11 +173,7 @@ Parameters:
 * `returnRequest` of which the items were sent
 * `order` of the return request
 
-<div data-full-width="true">
-
-<figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div data-full-width="false"><figure><img src="../../.gitbook/assets/sylius-docs-plusfeature-end.png" alt=""><figcaption></figcaption></figure></div>
 
 ### How to send an Email programmatically?
 
