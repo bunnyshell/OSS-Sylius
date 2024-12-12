@@ -14,7 +14,7 @@ layout:
 
 # Contact
 
-The functionality of contacting the shop support/admin is in Sylius very basic. Each **Channel** of your shop may have a `contactEmail` configured on it. This will be the email address to support.
+The functionality of contacting the shop support/admin in Sylius is very basic. Each **Channel** of your shop may have a `contactEmail` configured on it. This will be the email address to support.
 
 ### Contact form
 

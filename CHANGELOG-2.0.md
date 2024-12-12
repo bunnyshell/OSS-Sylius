@@ -1,5 +1,20 @@
 # CHANGELOG FOR `2.0.X`
 
+## v2.0.2 (2024-12-11)
+
+#### Details
+
+- [#17544](https://github.com/Sylius/Sylius/issues/17544) Update register.html.twig, fix duplicated button id ([@damonsson](https://github.com/damonsson))
+- [#17548](https://github.com/Sylius/Sylius/issues/17548) [Admin][UI] Improve inputs contrast ratio ([@kulczy](https://github.com/kulczy))
+- [#17550](https://github.com/Sylius/Sylius/issues/17550) [Maintenance][Behat] Enable not creating a driver session in api scenarios ([@NoResponseMate](https://github.com/NoResponseMate))
+- [#17555](https://github.com/Sylius/Sylius/issues/17555) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17558](https://github.com/Sylius/Sylius/issues/17558) Add missing locales for product attributes ([@bartek-sek](https://github.com/bartek-sek))
+- [#17557](https://github.com/Sylius/Sylius/issues/17557) Update contact.md typo ([@zairigimad](https://github.com/zairigimad))
+- [#17554](https://github.com/Sylius/Sylius/issues/17554) [CI] GHA improvements ([@NoResponseMate](https://github.com/NoResponseMate))
+- [#17559](https://github.com/Sylius/Sylius/issues/17559) General UI improvements ([@kulczy](https://github.com/kulczy))
+- [#17564](https://github.com/Sylius/Sylius/issues/17564) [Admin] Fix defining default value in twig templates ([@GSadee](https://github.com/GSadee))
+- [#17562](https://github.com/Sylius/Sylius/issues/17562) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+
 ## v2.0.1 (2024-12-04)
 
 #### Details
