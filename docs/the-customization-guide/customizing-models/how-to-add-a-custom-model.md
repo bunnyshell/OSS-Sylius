@@ -160,7 +160,7 @@ app_admin_supplier:
     resource: |
         alias: app.supplier
         section: admin
-        templates: "@SyliusAdmin\\Crud"
+        templates: "@SyliusAdmin\\shared\\crud"
         redirect: update
         grid: app_admin_supplier
         vars:
