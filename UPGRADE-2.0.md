@@ -1,3 +1,16 @@
+# UPGRADE FROM `2.0.2` TO `2.0.3`
+
+1. New `left` and `right` sections have been added to the following Twig hooks to improve customization:
+    - `sylius_admin.admin_user.create.content.form.sections`
+    - `sylius_admin.admin_user.update.content.form.sections`
+    - `sylius_admin.customer.create.content.form.sections`
+    - `sylius_admin.customer.update.content.form.sections`
+
+    Hooks previously attached to the `sections` hook are now divided into `left` and `right` sections. This change doesn't affect to the original hook names. 
+
+    For example, the `account` hook previously attached to `sylius_admin.admin_user.create.content.form.sections` is now located in `sylius_admin.admin_user.create.content.form.sections#left`,
+    but its name remains `sylius_admin.admin_user.create.content.form.sections.account`.
+
 # UPGRADE FROM `2.0.0` TO `2.0.1`
 
 ### Frontend
