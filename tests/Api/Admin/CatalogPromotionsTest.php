@@ -21,7 +21,6 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Checker\InForVariantsScopeVariantC
 use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Tests\Api\JsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Kernel;
 
 final class CatalogPromotionsTest extends JsonApiTestCase
 {
@@ -163,12 +162,6 @@ final class CatalogPromotionsTest extends JsonApiTestCase
     /** @test */
     public function it_does_not_create_a_catalog_promotion_with_invalid_scopes(): void
     {
-        if (Kernel::VERSION_ID >= 70200) {
-            // Behavior of validation changed in Symfony starting from version 7.2.0
-            // Details: https://github.com/symfony/symfony/pull/57436
-            $this->markTestSkipped('This test is skipped due to a behavior change in Symfony starting from version 7.2.0.');
-        }
-
         $this->loadFixturesFromFiles([
             'authentication/api_administrator.yaml',
             'channel/channel.yaml',
