@@ -149,7 +149,7 @@ resources:
                 denormalizationContext:
                     groups: ['sylius:shop:order:create']
                 normalizationContext:
-                    groups: ['sylius:shop:cart:show'
+                    groups: ['sylius:shop:cart:show']
 ```
 {% endtab %}
 {% endtabs %}

@@ -1,5 +1,4 @@
 const path = require('path');
-const Encore = require('@symfony/webpack-encore');
 
 const SyliusAdmin = require('@sylius-ui/admin');
 const SyliusShop = require('@sylius-ui/shop');
