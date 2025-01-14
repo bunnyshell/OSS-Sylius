@@ -6,7 +6,7 @@
     * [Release Cycle](sylius-2.0-documentation/organization/release-cycle.md)
     * [Backwards Compatibility Promise](sylius-2.0-documentation/organization/backwards-compatibility-promise.md)
     * [Sylius Team](https://sylius.com/team/)
-    * [Sylius Roadmap](https://sylius.com/roadmap/?utm\_source=docs)
+    * [Sylius Roadmap](https://sylius.com/roadmap/?utm_source=docs)
 
 ## Getting Started with Sylius
 
@@ -101,6 +101,7 @@
     * [Sylius License and Trademark](the-book/contributing/contributing-code/sylius-license-and-trademark.md)
   * [Contributing Documentation](the-book/contributing/contributing-documentation.md)
   * [Contributing Translations](the-book/contributing/contributing-translations.md)
+  * [Key Contributors](the-book/contributing/key-contributors.md)
 
 ## The Customization Guide
 

@@ -1,5 +1,48 @@
 # CHANGELOG FOR `2.0.X`
 
+## v2.0.3 (2025-01-13)
+
+#### Details
+
+- [#17572](https://github.com/Sylius/Sylius/issues/17572) [Admin] Remove pagination selector if there are no other limits ([@loic425](https://github.com/loic425))
+- [#17573](https://github.com/Sylius/Sylius/issues/17573) Chore: Bump Twig hooks and extra to 0.6 version ([@loic425](https://github.com/loic425))
+- [#17566](https://github.com/Sylius/Sylius/issues/17566) Allow grid action button's link URL to be defined without defining a … ([@JeanDavidDaviet](https://github.com/JeanDavidDaviet))
+- [#17575](https://github.com/Sylius/Sylius/issues/17575) Fix path to crud in resource config in documentation ([@JanPalen](https://github.com/JanPalen))
+- [#17567](https://github.com/Sylius/Sylius/issues/17567) Move mobile taxon menu into drawer ([@bartek-sek](https://github.com/bartek-sek))
+- [#17579](https://github.com/Sylius/Sylius/issues/17579) Add an optional icon and description to the page title ([@kulczy](https://github.com/kulczy))
+- [#17581](https://github.com/Sylius/Sylius/issues/17581) Update system-requirements.md ([@tomkalon](https://github.com/tomkalon))
+- [#17577](https://github.com/Sylius/Sylius/issues/17577) Center the labels in the variant table ([@kulczy](https://github.com/kulczy))
+- [#17582](https://github.com/Sylius/Sylius/issues/17582) [PaymentRequest] Rename properties ([@Prometee](https://github.com/Prometee))
+- [#17585](https://github.com/Sylius/Sylius/issues/17585) [AdminUser][Customer] Improve Twig hook structure by adding `left` and `right` sections ([@Wojdylak](https://github.com/Wojdylak))
+- [#17586](https://github.com/Sylius/Sylius/issues/17586) General UI improvements #3 ([@kulczy](https://github.com/kulczy))
+- [#17576](https://github.com/Sylius/Sylius/issues/17576) General UI improvements #2 ([@kulczy](https://github.com/kulczy))
+- [#17599](https://github.com/Sylius/Sylius/issues/17599) docs  Update customizing-api.md ([@gigabites19](https://github.com/gigabites19))
+- [#17598](https://github.com/Sylius/Sylius/issues/17598) [Bug] Fix statistics tests in new year ([@mpysiak](https://github.com/mpysiak))
+- [#17590](https://github.com/Sylius/Sylius/issues/17590) Fix Migrations With Custom Table Name ([@Rafikooo](https://github.com/Rafikooo))
+- [#17595](https://github.com/Sylius/Sylius/issues/17595) Add missing changed InventoryBundle service to UPGRADE-2.0 ([@diimpp](https://github.com/diimpp))
+- [#17603](https://github.com/Sylius/Sylius/issues/17603) [CS][DX] Refactor
+- [#17602](https://github.com/Sylius/Sylius/issues/17602) [CS][DX] Refactor
+- [#17594](https://github.com/Sylius/Sylius/issues/17594) fix  Update select attribute in AdminBundle to use the proper base template ([@t-richard](https://github.com/t-richard))
+- [#17605](https://github.com/Sylius/Sylius/issues/17605) [CS][DX] Refactor
+- [#17571](https://github.com/Sylius/Sylius/issues/17571) Fonts loading optimization ([@kulczy](https://github.com/kulczy))
+- [#17611](https://github.com/Sylius/Sylius/issues/17611) [Maintenance][OrderProcessing] Extract adjustment types to be cleared to a parameter ([@NoResponseMate](https://github.com/NoResponseMate))
+- [#17607](https://github.com/Sylius/Sylius/issues/17607) [Bug] Fix missing variable ([@mpysiak](https://github.com/mpysiak))
+- [#17610](https://github.com/Sylius/Sylius/issues/17610) Revert skipped phpunit test ([@mpysiak](https://github.com/mpysiak))
+- [#17574](https://github.com/Sylius/Sylius/issues/17574) SYL-3939: Eslint ([@bartek-sek](https://github.com/bartek-sek))
+- [#17587](https://github.com/Sylius/Sylius/issues/17587) SYL-4220: Implement twig hooks for product variant ([@bartek-sek](https://github.com/bartek-sek))
+- [#17556](https://github.com/Sylius/Sylius/issues/17556) [Login] remove loader login page in safari when loading page from cache ([@zairigimad](https://github.com/zairigimad))
+- [#17613](https://github.com/Sylius/Sylius/issues/17613) [Inventory] Fix availability checker aliases ([@GSadee](https://github.com/GSadee))
+- [#17589](https://github.com/Sylius/Sylius/issues/17589) SYL-4221: Fix taxon tree styles ([@bartek-sek](https://github.com/bartek-sek))
+- [#17612](https://github.com/Sylius/Sylius/issues/17612) Add help on channel pricing when product is simple ([@ehibes](https://github.com/ehibes))
+- [#17591](https://github.com/Sylius/Sylius/issues/17591) Fix form template without resource factory ([@loic425](https://github.com/loic425))
+- [#17570](https://github.com/Sylius/Sylius/issues/17570) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17592](https://github.com/Sylius/Sylius/issues/17592) [Admin] Define title icon and subheader on Twig hooks configuration ([@loic425](https://github.com/loic425))
+- [#17614](https://github.com/Sylius/Sylius/issues/17614) [Admin] Order UI improvements ([@kulczy](https://github.com/kulczy))
+- [#17619](https://github.com/Sylius/Sylius/issues/17619) Fix phpspec namespace ([@mpysiak](https://github.com/mpysiak))
+- [#17617](https://github.com/Sylius/Sylius/issues/17617) [Admin] Fix services imports not to import integrations every time ([@GSadee](https://github.com/GSadee))
+- [#17622](https://github.com/Sylius/Sylius/issues/17622) [DOCUMENTATION] Synchronize 2.0-docs -> 2.0 ([@SyliusBot](https://github.com/SyliusBot))
+- [#17597](https://github.com/Sylius/Sylius/issues/17597) SYL-4224: UI improvements ([@bartek-sek](https://github.com/bartek-sek))
+
 ## v2.0.2 (2024-12-11)
 
 #### Details
