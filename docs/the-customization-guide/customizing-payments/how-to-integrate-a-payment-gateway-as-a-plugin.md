@@ -114,6 +114,8 @@ First, set up a command provider to specify which command should be executed for
 
 **Provider Service**: Define the command provider service in `config/services.yaml`:
 
+{% tabs %}
+{% tab title="YAML" %}
 ```yaml
 acme.sylius_example.command_provider.sylius_payment:
     class: Sylius\Bundle\PaymentBundle\CommandProvider\ActionsCommandProvider
@@ -123,8 +125,25 @@ acme.sylius_example.command_provider.sylius_payment:
             index_by: 'action'
     tags:
         - name: sylius.payment_request.command_provider
-          gateway-factory: 'sylius_payment'
+          gateway_factory: 'sylius_payment'
 ```
+{% endtab %}
+
+{% tab title="XML" %}
+```xml
+<services>
+    <service id="acme.sylius_example.command_provider.sylius_payment"
+             class="Sylius\Bundle\PaymentBundle\CommandProvider\ActionsCommandProvider">
+        <argument type="tagged_locator"
+                  tag="acme.sylius_example.command_provider.sylius_payment"
+                  index_by="action" />
+        <tag name="sylius.payment_request.command_provider"
+             gateway-factory="sylius_payment" />
+    </service>
+</services>
+```
+{% endtab %}
+{% endtabs %}
 
 This setup uses a tagged locator to identify services that are tagged with `acme.sylius_example.command_provider.sylius_payment` and to index them by the `action` tag property. Each tagged service will provide the appropriate command for a specific action.
 
@@ -132,6 +151,8 @@ This setup uses a tagged locator to identify services that are tagged with `acme
 
 Create the action `CommandProvider` which provides your future `Command`:
 
+{% tabs %}
+{% tab title="YAML" %}
 ```yaml
 acme.sylius_example.command_provider.sylius_payment.capture:
     class: Acme\SyliusExamplePlugin\CommandProvider\CapturePaymentRequestCommandProvider
@@ -139,6 +160,18 @@ acme.sylius_example.command_provider.sylius_payment.capture:
         - name: acme.sylius_example.command_provider.sylius_payment
           action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE
 ```
+{% endtab %}
+
+{% tab title="XML" %}
+```xml
+<service id="acme.sylius_example.command_provider.sylius_payment.capture"
+         class="Acme\SyliusExamplePlugin\CommandProvider\CapturePaymentRequestCommandProvider">
+    <tag name="acme.sylius_example.command_provider.sylius_payment"
+         action="capture"/>
+</service>
+```
+{% endtab %}
+{% endtabs %}
 
 Then create the class related to this service:
 
@@ -244,7 +277,42 @@ This setup allows you to handle payment actions through a clean, event-driven ar
 
 Sylius "Payment Request" system is designed to work statelessly, making it compatible with both API and UI interactions. For UI scenarios where you need to display specific pages, perform redirects, or present a form, you’ll need to create a custom HTTP response provider. Here’s how to configure your payment handling.
 
-#### 1. Create an HTTP Response Provider
+### Create an Actions HTTP Response Provider
+
+The Actions HTTP Response Provider is a service very similar to the Actions Command Provider we created earlier. Its goal is to route an action to the right HTTP Response Provider which we will create in the next chapter.
+
+{% tabs %}
+{% tab title="YAML" %}
+```yaml
+acme.sylius_example.provider.order_pay.http_response.sylius_payment:
+  class: Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider
+  arguments:
+      - !tagged_locator
+          tag: acme.sylius_example.provider.http_response.sylius_payment
+          index_by: action
+  tags:
+      - name: sylius.payment_request.provider.http_response
+        gateway_factory: 'sylius_payment'
+```
+{% endtab %}
+
+{% tab title="XML" %}
+```xml
+<services>
+  <service id="acme.sylius_example.provider.order_pay.http_response.sylius_payment"
+           class="Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider">
+    <argument type="tagged_locator"
+              tag="acme.sylius_example.provider.http_response.sylius_payment"
+              index-by="action"/>
+    <tag name="sylius.payment_request.provider.http_response"
+         gateway-factory="sylius_payment"/>
+  </service>
+</services>
+```
+{% endtab %}
+{% endtabs %}
+
+### Create an HTTP Response Provider
 
 Define a custom HTTP response provider to manage UI behavior for actions, like `capture`. This provider will allow you to control the response for different payment states (e.g., redirecting to a payment portal or displaying a confirmation page).
 
@@ -293,12 +361,14 @@ final class CaptureHttpResponseProvider implements HttpResponseProviderInterface
 }
 ```
 
-#### 2. Register the Response Provider
+### Register the Response Provider
 
 To activate your response provider, add it to your service configuration.
 
 **Service Registration: `config/services.yaml`**
 
+{% tabs %}
+{% tab title="YAML" %}
 ```yaml
 acme.sylius_example.provider.order_pay.http_response.sylius_payment.capture:
     class: Acme\SyliusExamplePlugin\OrderPay\Provider\CaptureHttpResponseProvider
@@ -306,12 +376,24 @@ acme.sylius_example.provider.order_pay.http_response.sylius_payment.capture:
         - name: acme.sylius_example.provider.http_response.sylius_payment
           action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE
 ```
+{% endtab %}
 
-#### 3. Handling Other Payment Actions
+{% tab title="XML" %}
+```xml
+<service id="acme.sylius_example.provider.order_pay.http_response.sylius_payment.capture"
+         class="Acme\SyliusExamplePlugin\OrderPay\Provider\CaptureHttpResponseProvider">
+    <tag name="acme.sylius_example.provider.http_response.sylius_payment"
+         action="capture" />
+</service>
+```
+{% endtab %}
+{% endtabs %}
+
+### Handling Other Payment Actions
 
 For additional actions like `status`, `refund`, or `cancel`, repeat the command and handler creation process. This modularity allows you to tailor each payment action (e.g., `StatusPaymentRequest`, `RefundPaymentRequest`) according to your business requirements.
 
-#### 4. Using Payment Request for UI
+### Using Payment Request for UI
 
 The Payment Request system is inherently stateless, making it ideal for headless or standard setups. For UI interactions, like redirecting after payment, you can use the response providers configured above to customize the "after pay" route or provide specific UI feedback based on the payment status.
 
