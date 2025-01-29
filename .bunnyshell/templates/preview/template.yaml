@@ -1,0 +1,16 @@
+name: Sylius 2.0
+description: Sylius 2.0 with a complete stack. This template can be used for bootstrapping an application.
+tags: [ sylius, php, mysql, ecommerce ]
+icons: [ sylius, php, mysql ]
+categories: [ 'e-commerce', framework ]
+stack:
+  packages:
+    - name: Sylius
+      version: '2.0'
+    - name: PHP
+      version: '8.2'
+    - name: Nginx
+      version: '1.21'
+    - name: MySQL
+      version: '8.0'
+discoverable: true
