@@ -1,0 +1,82 @@
+name: Bunnyshell - Sync Fork 2.0
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # at midnight
+  workflow_dispatch: # on button click
+    inputs:
+      force_update:
+        description: "Force the update even if nothing changed"
+        required: false
+        default: "false"
+
+jobs:
+  sync-and-tweak:
+    runs-on: ubuntu-latest
+    env:
+      # 2.0 branch should follow 1:1 Sylius/Sylius 2.0, no extra commits on our side
+      # 2.0-bns should be 2.0, plus:
+      #  - bunnyshell-sync-fork-2.0.yaml file (this file)
+      #  - updated bunnyshell.yaml file
+      # 2.0-bns should be the default branch to be able to run this workflow
+      BNS_GIT_DEST_REPO_URL: 'https://github.com/bunnyshell/OSS-Sylius.git'
+      BNS_GIT_DEST_REPO_NAME: 'bunnyshell/OSS-Sylius'
+      BNS_GIT_DEST_BRANCH: '2.0-bns'
+      BNS_GIT_FOLLOW_BRANCH: '2.0'
+      BNS_YAML_PATH: '.bunnyshell/templates/preview/bunnyshell.yaml'
+
+    steps:
+      - name: Sync branch with upstream
+        env:
+            GH_TOKEN: ${{ secrets.GH_SYNC_PAT }}
+        run: |
+          # this works because BNS_GIT_FOLLOW_BRANCH is the default branch
+          PRE_SYNC_COMMIT=$(gh api repos/${BNS_GIT_DEST_REPO_NAME}/commits/${BNS_GIT_FOLLOW_BRANCH} --jq '.sha')
+          gh repo sync ${BNS_GIT_DEST_REPO_NAME} --branch ${BNS_GIT_FOLLOW_BRANCH} --force
+          POST_SYNC_COMMIT=$(gh api repos/${BNS_GIT_DEST_REPO_NAME}/commits/${BNS_GIT_FOLLOW_BRANCH} --jq '.sha')
+          if [ "$PRE_SYNC_COMMIT" = "$POST_SYNC_COMMIT" ]; then
+            echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
+          else
+            echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          fi
+
+      - name: Stop Workflow If No Changes
+        if: env.CHANGES_DETECTED == 'false' && inputs.force_update != 'true'
+        run: echo "No updates detected. Workflow stopping here."
+          
+      - name: Checkout repository
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BNS_GIT_FOLLOW_BRANCH }}
+
+      - name: Set config user
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        run: |
+          git config --global user.email "devops@bunnyshell.com"
+          git config --global user.name "Bunnyshell"
+
+      - name: Checkout to dest branch
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        run: |
+            git checkout --force -B ${BNS_GIT_DEST_BRANCH} refs/remotes/origin/${BNS_GIT_DEST_BRANCH}
+            git rebase ${BNS_GIT_FOLLOW_BRANCH} -X ours || (git rebase --abort && exit 1)
+
+      - name: Setup yq
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        uses: frenck/action-setup-yq@v1
+        
+      - name: Update bunnyshell.yaml file
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        run: |
+          yq "(.components[] | select(.gitRepo != null)).gitRepo |= \"$BNS_GIT_DEST_REPO_URL\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
+          mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
+          yq "(.components[] | select(.gitBranch != null)).gitBranch |= \"$BNS_GIT_DEST_BRANCH\"" $BNS_YAML_PATH > $BNS_YAML_PATH-tmp
+          mv $BNS_YAML_PATH-tmp $BNS_YAML_PATH
+          yq "del(.components[].dockerCompose.cap_add)" -i $BNS_YAML_PATH
+          git add $BNS_YAML_PATH
+          git commit -m "Update bunnyshell.yaml" || echo "No changes to commit"
+
+      - name: Push Updates to dest branch
+        if: env.CHANGES_DETECTED == 'true' || inputs.force_update == 'true'
+        run: git push origin ${BNS_GIT_DEST_BRANCH} --force
